@@ -168,6 +168,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 </div>
 
 <script>
+/* v2.1 — Quellen-Ausbau + Wiederholungsmodul */
 /* ===================== BLÖCKE ===================== */
 const BLOCKS = {
   kua:[
@@ -176,6 +177,15 @@ const BLOCKS = {
     {n:"Block 3", title:"Existenzielle Dimension", sub:"Sinn statt aufgezwungenem Wert"},
     {n:"Block 4", title:"Politische Dimension", sub:"Die Grenze des Eigenen"},
     {n:"Block 5", title:"Ergänzende Perspektiven", sub:"Hedonistisches Ziel & theologische Grundierung"},
+    {n:"Block 6", title:"Erkenntnis & Grenze", sub:"Hayek, Wittgenstein, Arendt, Spinoza — die Wurzeln der „Anmaßung“"},
+    {n:"Block 7", title:"Stoa & Epikur — die Quellen", sub:"Marc Aurel, Epikur, Hadot, Becker"},
+    {n:"Block 8", title:"Schwarm & Bindung", sub:"Aristoteles, Dunbar, Putnam, Bauman"},
+    {n:"Block 9", title:"Relationale Werte", sub:"Veblen, Hirsch, Frank — die Logik der Positionsgüter"},
+    {n:"Block 10", title:"Diagnose der Moderne", sub:"Ehrenberg, Han, Rosa, Taylor"},
+    {n:"Block 11", title:"Stadt & gebaute Umwelt", sub:"Alexander, Jacobs, Marohn"},
+    {n:"Block 12", title:"Demokratie & Institutionen", sub:"Aristoteles, Tocqueville, Lipset, Buchanan, Acemoglu/Robinson"},
+    {n:"Block 13", title:"Ethik-Spannungen & Form", sub:"Murdoch, Levinas, Comte-Sponville, Nozick"},
+    {n:"Block 14", title:"Theologische Grundierung (privat)", sub:"Hoffnung, Kenosis, „leere Hölle“"},
   ],
   allg:[
     {n:"Start", title:"Grundlagen", sub:"Die Landkarte der Philosophie"},
@@ -661,6 +671,564 @@ const LESSONS = [
   {t:"flip", kicker:"Bonus · dein Projekt", front:"Wie verhält sich das zu deinem Glücks-Ziel?",
    reveal:"Der Existenzialismus ist <b>Frankls Nachbar</b> und ein Gegenpol zu deinem hedonistischen Satz 2: Hier zählen <b>Freiheit und selbst gestifteter Sinn</b>, nicht Glück. Ein guter Prüfstein, um deinen Glücksbegriff schärfer von „Sinn“ abzugrenzen."},
  ]},
+/* ============ KUA · BLOCK 6 (ERKENNTNIS & GRENZE) ============ */
+{ id:"hayek", track:"kua", block:5, icon:"🧠",
+ title:"Hayek — Anmaßung von Wissen", author:"Friedrich A. von Hayek · 1974",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧠", h:"Der Ökonom des Nichtwissens",
+   body:["Friedrich August von Hayek (1899–1992), österreichischer Ökonom, Nobelpreis 1974. Sein Lebensthema: Das Wissen einer Gesellschaft ist <b>verstreut</b> — lokal, an Millionen Köpfe gebunden. Niemand hat es zentral.",
+         "Daraus seine berühmte Kritik an staatlicher Planung: Wer eine Wirtschaft oder Gesellschaft „von oben“ steuern will, maßt sich ein Wissen an, das es so gar nicht gibt."],
+   tag:"≈ Buchtitel · Satz 3"},
+  {t:"info", kicker:"Der Begriff", emoji:"📉", h:"„Anmaßung von Wissen“",
+   body:["Titel seiner Nobelpreisrede 1974 (<i>The Pretence of Knowledge</i>). Kernvorwurf: Die Sozialwissenschaft imitiert die Naturwissenschaft und tut so, als könne sie komplexe Ordnungen messen und steuern.",
+         "Echte Ordnung entsteht für Hayek <b>spontan</b> — Markt, Sprache, Recht —, getragen von <b>generellen Regeln</b>, nicht von Einzeleingriffen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint Hayek mit „Anmaßung von Wissen“?",
+   opts:["Den Mut, Neues zu wagen","Den Irrglauben, komplexe Ordnungen zentral steuern zu können","Bildungsarroganz von Experten","Die Grenzen der Mathematik"],
+   correct:1, fb:"Genau: der Glaube, ein verstreutes, unzugängliches Wissen zentral zu besitzen und lenken zu können."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Warum steht Hayek im Titel deines Buchs?",
+   reveal:"Dein Begriff „Anmaßung“ knüpft direkt an Hayek an — du <b>erweiterst</b> ihn aber von der Ökonomie auf Ethik, Politik und Theologie.<br><br>Drei Übernahmen: (1) Das Wissensproblem begründet dein <b>Anti-Urteils-Prinzip</b> (Satz 3) — säkular statt theologisch. (2) <b>Generelle Regeln statt Einzelentscheidungen</b> → Vorbild für die Mandatstreuhand. (3) Die „Hayek-Erläuterungs-Form“ (jedes Axiom mit kurzem Erläuterungsabsatz) ist deine Stilvorgabe für die Sechs Axiome."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Übertrage Hayeks Wissensproblem von der Wirtschaft auf das Urteil über einen anderen Menschen.", hint:"Wenn schon eine Volkswirtschaft zu komplex ist …",
+   model:"<b>Kern:</b> Ist schon eine Volkswirtschaft zu komplex, um sie zentral zu kennen und zu steuern, dann ist das Innere eines einzelnen Menschen erst recht unzugänglich. Über ihn zu urteilen heißt, ein Wissen zu behaupten, das man nicht hat — Anmaßung."},
+ ]},
+{ id:"wittgenstein", track:"kua", block:5, icon:"🪜",
+ title:"Wittgenstein — Tractatus", author:"Ludwig Wittgenstein · 1921",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🪜", h:"Die Grenze des Sagbaren",
+   body:["Ludwig Wittgenstein (1889–1951), <i>Tractatus logico-philosophicus</i> (1921) — sein erstes Hauptwerk, aufgebaut wie ein logisches Gerüst aus nummerierten Sätzen.",
+         "Grundidee: Sprache <b>bildet die Welt ab</b>. Was sich klar sagen lässt, gehört zur Wissenschaft. Alles andere — Ethik, Sinn, das Mystische — liegt jenseits der Sprachgrenze."],
+   tag:"≈ Axiom 2 · Schranke"},
+  {t:"info", kicker:"Der Schlusssatz", emoji:"🔇", h:"Satz 7",
+   body:["„<b>Wovon man nicht sprechen kann, darüber muss man schweigen.</b>“",
+         "Das Buch endet mit seiner eigenen Selbstbegrenzung: Es zieht eine Linie um das Sagbare — und erkennt an, dass das Wichtigste außerhalb liegt. Wittgenstein nannte seine Sätze später eine <b>Leiter</b>, die man wegwirft, nachdem man hinaufgestiegen ist."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was sagt der berühmte Satz 7?",
+   opts:["Alles lässt sich präzise ausdrücken","Wovon man nicht sprechen kann, darüber muss man schweigen","Sprache ist Macht","Logik ist die einzige Wahrheit"],
+   correct:1, fb:"Die Sprache erreicht ihre Grenze — und muss sie markieren, statt sie zu überschreiten."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wie nutzt du Wittgenstein — und wie ausdrücklich <i>nicht</i>?",
+   reveal:"Wichtig: Du übernimmst ihn <b>nicht als Sprachtheorie</b>, sondern als <b>Schrankenbeweis</b>.<br><br>Für dein Axiom 2 (das Innere eines anderen ist durch Schlussfolgerung prinzipiell unerreichbar): Wittgenstein zeigt, dass selbst der formal strengste Versuch, das Sagbare auszuschöpfen, an der eigenen Grenze landet und sie markieren muss. „Tractatus erreicht seine eigene Grenze“ — nicht „Tractatus hat recht über Sprache“. Das stützt zugleich deine stilistische Selbstbeschränkung."},
+ ]},
+{ id:"arendt", track:"kua", block:5, icon:"⚖️",
+ title:"Arendt — Vita activa", author:"Hannah Arendt · 1958",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"⚖️", h:"Die Denkerin des Handelns",
+   body:["Hannah Arendt (1906–1975). <i>The Human Condition</i> / <i>Vita activa</i> (1958) unterscheidet drei Grundtätigkeiten: <b>Arbeiten</b> (Lebenserhalt), <b>Herstellen</b> (Dinge schaffen) und <b>Handeln</b> — das Politische, gemeinsam mit anderen etwas Neues anfangen.",
+         "Für Arendt ist Politik der Raum, in dem Menschen sich zeigen, sprechen und urteilen."],
+   tag:"≈ Satz 3 · Spannungspartnerin"},
+  {t:"info", kicker:"Die Gegenposition", emoji:"🗣️", h:"Urteilen als das politischste Vermögen",
+   body:["Bei Arendt (auch in „Vom Leben des Geistes“ und den Kant-Vorlesungen) ist das <b>Urteilen</b> die politische Tätigkeit schlechthin: Der Mensch konstituiert sich, indem er über die Welt und über andere urteilt.",
+         "Das ist genau das Gegenteil deiner These — deshalb ist sie für dich so wichtig."]},
+  {t:"mc", kicker:"Mini-Check", q:"Warum ist Arendt für dein System ein Spannungspartner?",
+   opts:["Sie lehnt Demokratie ab","Sie hält Urteilen für das politischste Vermögen — du hältst es für Anmaßung","Sie ist Hedonistin","Sie ignoriert die Antike"],
+   correct:1, fb:"Sie ist die schärfste Gegenstimme zum Anti-Urteils-Prinzip."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wie trägst du die Spannung mit Arendt aus?",
+   reveal:"Dein System dreht Arendt um: <b>Urteilen ist Anmaßung</b>, weil es einen Wissensanspruch erhebt, der nicht einlösbar ist (Axiom 2). Politik soll nicht urteilen, sondern <b>Bedingungen schaffen</b>.<br><br>Wichtig: Arendt darf nicht ignoriert werden. Wenn du die Spannung nicht offen austrägst, wirkt das System naiv. Sie ist der Härtetest deines Satzes 3."},
+ ]},
+{ id:"spinoza", track:"kua", block:5, icon:"📐",
+ title:"Spinoza — Ethik", author:"Baruch de Spinoza · 1677",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📐", h:"Ethik nach Art der Geometrie",
+   body:["Baruch de Spinoza (1632–1677), <i>Ethica ordine geometrico demonstrata</i>, posthum 1677. Aufgebaut wie Euklid: Definitionen, Axiome, Lehrsätze, Beweise, Q.E.D.",
+         "Inhaltlich: eine einzige Substanz (Gott = Natur), der Mensch als Teil von ihr; Freiheit heißt, die eigene Natur und die Affekte zu <b>verstehen</b> statt ihnen ausgeliefert zu sein."],
+   tag:"≈ Sechs Axiome · Form"},
+  {t:"info", kicker:"Warum er für dich zählt", emoji:"🏗️", h:"Das Strukturvorbild",
+   body:["Nicht der Inhalt, sondern die <b>Form</b> interessiert dich: sichtbare Axiome am Anfang, Sparsamkeit der Setzungen, explizit ausgewiesene Folgerungen.",
+         "Aber: ausdrücklich <b>nicht</b> formal imitieren."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was übernimmst du von Spinoza — und was nicht?",
+   opts:["Die Substanzmetaphysik","Die Sichtbarkeit weniger Axiome am Anfang, nicht die geometrische Beweisform","Den Gottesbegriff","Gar nichts"],
+   correct:1, fb:"Die Architektur ja, die „more geometrico“-Beweisform nein."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wo ist die Falle bei Spinoza (und Wittgenstein)?",
+   reveal:"Beide versprechen formal mehr Strenge, als sie einlösen: Spinoza verspricht „more geometrico“ und liefert dann doch interpretationsoffene Sätze.<br><br>Lehre für dich: <b>Sechs Axiome, eine Seite, Schluss</b> — die ehrliche Zahl. Keine geometrische Verklärung der Setzungen. <i>Eingeständnis ist sauberer als Schein-Strenge.</i>"},
+ ]},
+/* ============ KUA · BLOCK 7 (STOA & EPIKUR — DIE QUELLEN) ============ */
+{ id:"marcaurel", track:"kua", block:6, icon:"📓",
+ title:"Marc Aurel — Meditationen", author:"Marc Aurel · ~170 n. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📓", h:"Das Tagebuch eines Kaisers",
+   body:["Marc Aurel (121–180 n. Chr.), römischer Kaiser. Die <i>Selbstbetrachtungen</i> („An sich selbst“) sind ein im Feldlager geführtes Tagebuch — nie zur Veröffentlichung gedacht.",
+         "Kein Lehrbuch, sondern <b>protokollierte Selbstermahnung</b>: Erinnere dich an Vergänglichkeit, Pflicht, die Ordnung des Ganzen, die Kürze des Lebens."],
+   tag:"≈ Innere Ordnung · Verfahren 5"},
+  {t:"info", kicker:"Die System-Lesart", emoji:"🔁", h:"Werkzeug, nicht Aphorismus",
+   body:["Du liest die Meditationen <b>funktional</b>: als operatives Werkzeug — der Bruch der Tagesnormalität durch fixierte Vergleichspunkte.",
+         "Das unterscheidet dich von der Pop-Stoa (Ryan Holiday u.a.), die Marc Aurel als Aphorismen-Spender behandelt. „Die klassische Stoa hat den Schwarm nicht benötigt, weil sie das <b>Tagebuch</b> hatte.“"]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Marc Aurel?",
+   reveal:"Als Beleg für <b>Verfahren 5 (Verfestigung)</b> deiner Inneren Ordnung: protokollierte Selbstbeobachtung über Zeit hält die Haltung stabil.<br><br>Marc Aurel zeigt, dass stoische Praxis kein Theoriesystem braucht, sondern eine wiederkehrende <b>Übung</b> — genau das, was Hadot „Philosophie als Lebensform“ nennt."},
+ ]},
+{ id:"epikur-brief", track:"kua", block:6, icon:"🌿",
+ title:"Epikur — Brief an Menoikeus", author:"Epikur · ~300 v. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🌿", h:"Die Lehre vom richtigen Glück",
+   body:["Epikur (341–270 v. Chr.), <i>Brief an Menoikeus</i> — einer von drei erhaltenen Lehrbriefen, überliefert durch Diogenes Laertios. Eine kompakte Zusammenfassung seiner Ethik.",
+         "Glück = <b>Ataraxie</b> (Seelenruhe) + <b>Aponie</b> (Schmerzfreiheit). Nicht Rausch, sondern ein dauerhaft tragfähiger Zustand."],
+   tag:"≈ Satz 2 · das Ziel"},
+  {t:"info", kicker:"Das Missverständnis", emoji:"🍷", h:"Epikureer ≠ Genussmensch",
+   body:["Anders als das Klischee: Epikur empfiehlt <b>Maß, Freundschaft und Furchtlosigkeit</b> (vor Göttern und Tod), nicht Luxus.",
+         "Er unterscheidet ausdrücklich kurzfristige Lust von dauerhaftem Glück. Wer sein Glück sucht, sucht keinen Augenblicksrausch, sondern eine tragfähige innere Lage."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was bedeutet „Ataraxie“?",
+   opts:["Höchste Lust","Unerschütterliche Seelenruhe","Tugend als einziges Gut","Gleichgültigkeit gegen alles"],
+   correct:1, fb:"Die unerschütterliche Ruhe der Seele — Epikurs Zielzustand, nicht der Rausch."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wie passt Epikur mit der Stoa zusammen?",
+   reveal:"In deinem System <b>arbeitsteilig</b>: Stoa (Epiktet) als <b>Methode</b>, Epikur als <b>Ziel</b>. Glück wird epikureisch verstanden — als Zustand, nicht als aristippischer Genuss-Hedonismus.<br><br>Die Synthese ist nicht originell (Hadot hat sie vorbereitet), aber sie ist die tragende Konstellation: Satz 1 sagt, <i>wie</i> du mit der Welt umgehst, Satz 2 sagt, <i>wozu</i>."},
+ ]},
+{ id:"hadot", track:"kua", block:6, icon:"🧘",
+ title:"Hadot — Philosophie als Lebensform", author:"Pierre Hadot · 1995",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧘", h:"Philosophie ist Übung, nicht Theorie",
+   body:["Pierre Hadot (1922–2010), französischer Philosophiehistoriker. Seine Hauptthese: Antike Philosophie (Stoa, Epikur, Platonismus) war primär <b>Lebenspraxis</b> — eine Reihe geistiger Übungen —, nicht ein Theoriegebäude.",
+         "Die Theorie ist Werkzeug der Praxis, nicht ihr Zweck."],
+   tag:"≈ Methode der Synthese"},
+  {t:"info", kicker:"Geistige Übungen", emoji:"🔄", h:"Was das konkret heißt",
+   body:["Meditation über den Tod, der „Blick von oben“ aufs Ganze, die abendliche Tagesrückschau, negative Visualisierung — antike Philosophie bestand aus solchen <b>wiederholten Übungen</b>.",
+         "Philosophie ist damit ein seelisches Training, kein akademisches Fach."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Warum ist Hadot dein methodisches Vorbild?",
+   reveal:"Er legitimiert deine ganze Architektur: Wenn Philosophie <b>Praxis</b> ist, dann ist deine „Innere Ordnung“ (die fünf operativen Verfahren) kein angehängtes Anwendungskapitel, sondern das <b>Herzstück</b>.<br><br>Hadot hat die Stoa-Epikur-Synthese vorbereitet und rechtfertigt deine operative Lesart von Marc Aurel und Epiktet."},
+ ]},
+{ id:"becker", track:"kua", block:6, icon:"🧱",
+ title:"Becker — A New Stoicism", author:"Lawrence Becker · 1998",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧱", h:"Die Stoa für die analytische Philosophie",
+   body:["Lawrence C. Becker (1939–2018), <i>A New Stoicism</i> (1998, erw. 2017). Ein Versuch, die Stoa nicht historisch nachzubeten, sondern als ernsthafte Ethik für die Gegenwart neu zu begründen — mit den Mitteln der modernen analytischen Philosophie."],
+   tag:"≈ Spannungspartner Stoa"},
+  {t:"info", kicker:"Die andere Richtung", emoji:"↔️", h:"Tugend statt Glück",
+   body:["Becker hält die <b>volle</b> stoische Tugendethik aufrecht: Tugend ist das einzige Gut, Glück nur ein Nebenprodukt.",
+         "Damit ist er dein <b>Gegenstück</b>: gleicher Stoff (Stoa als Lebenspraxis), entgegengesetztes Konfigurationsprinzip."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wozu brauchst du Becker?",
+   reveal:"Als Kontrastfolie. Hadot und Becker markieren die zwei Richtungen, in die man die Stoa heute drehen kann: Hadot → Praxis, offen für ein hedonistisches Ziel (dein Weg); Becker → strenge Tugendethik.<br><br>Indem du Becker nennst, zeigst du, dass deine Wahl (Epikur als Ziel) eine <b>bewusste Entscheidung</b> ist, keine Unkenntnis der Alternative."},
+ ]},
+/* ============ KUA · BLOCK 8 (SCHWARM & BINDUNG) ============ */
+{ id:"aristoteles-ne", track:"kua", block:7, icon:"🤝",
+ title:"Aristoteles — Nikomachische Ethik", author:"Aristoteles · ~330 v. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🤝", h:"Die erste große Glücks-Ethik",
+   body:["Aristoteles (384–322 v. Chr.), <i>Nikomachische Ethik</i> — der Gründungstext der westlichen Ethik. Ziel allen Handelns ist <b>Eudaimonia</b> (gelingendes Leben), erreicht durch <b>Tugend</b>.",
+         "Tugend ist die <b>Mitte</b> zwischen zwei Extremen: Mut liegt zwischen Feigheit und Tollkühnheit, Großzügigkeit zwischen Geiz und Verschwendung."],
+   tag:"≈ Schwarm · Schicht 1"},
+  {t:"info", kicker:"Drei Arten Freundschaft", emoji:"👥", h:"Nutzen, Lust, Tugend",
+   body:["Buch VIII unterscheidet Freundschaft aus <b>Nutzen</b>, aus <b>Lust</b> und die <b>Tugendfreundschaft</b> — die zwischen guten Menschen, die einander um ihrer selbst willen wollen.",
+         "Nur die Tugendfreundschaft ist vollkommen und dauerhaft."]},
+  {t:"mc", kicker:"Mini-Check", q:"Welche Freundschaft ist für Aristoteles die vollkommene?",
+   opts:["Nutzfreundschaft","Lustfreundschaft","Tugendfreundschaft","Zweckgemeinschaft"],
+   correct:2, fb:"Nur sie will den anderen um seiner selbst willen — und hält darum."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nimmst du Aristoteles hier?",
+   reveal:"Für die <b>innerste Schicht deiner Schwarmtheorie</b>: die bilaterale Tugendfreundschaft — zwei Menschen, die einander aktiv pflegen, ohne in einem gemeinsamen Schwarm zu wirken. Hier zählt die Person, nicht der Schwarm.<br><br><b>Abgrenzung:</b> Aristoteles vermischt Selbstverhältnis und Ethik (Eudaimonia = Tugend). Dein System trennt beides — „Aristoteles und Kant vermischen das, dieses System nicht.“"},
+ ]},
+{ id:"dunbar", track:"kua", block:7, icon:"🧮",
+ title:"Dunbar — Wie viele Freunde", author:"Robin Dunbar · 1992/2010",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧮", h:"Die Dunbar-Zahl",
+   body:["Robin Dunbar (Oxford), Evolutionsanthropologe. Sein Befund (1992/2010): Die kognitive Obergrenze stabiler sozialer Beziehungen liegt bei rund <b>150</b> — abgeleitet aus der Größe des Neokortex bei Primaten."],
+   tag:"≈ Schwarmzahl"},
+  {t:"info", kicker:"Die inneren Kreise", emoji:"🎯", h:"5 – 15 – 50 – 150",
+   body:["Die 150 ist <b>geschichtet</b>: ein engster Kreis von ~5 (intime Bindungen), dann ~15 (enge Freunde), ~50 (gute Bekannte), ~150 (stabiles Netzwerk).",
+         "Je enger der Kreis, desto mehr Pflege-Aufwand pro Person."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was besagt die Dunbar-Zahl?",
+   opts:["Man braucht 150 Follower","Die kognitive Obergrenze stabiler Beziehungen liegt bei ~150","Freundschaft ist in Geld messbar","Soziale Netzwerke machen einsam"],
+   correct:1, fb:"Eine biologisch begründete Obergrenze für die Zahl, die wir stabil halten können."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür stützt Dunbar dein System?",
+   reveal:"Empirischer Anker für die <b>Schwarmzahl „2–3 aktiv“</b>: Dunbars innerste Schichten (5, 15) passen zur Beobachtung, dass ein Mensch nur sehr wenige Schwärme wirklich aktiv pflegen kann.<br><br>Wenn deine 2–3-Norm tragen soll, braucht sie eine kurze empirische Stütze — Dunbar liefert sie."},
+ ]},
+{ id:"putnam", track:"kua", block:7, icon:"🎳",
+ title:"Putnam — Bowling Alone", author:"Robert D. Putnam · 2000",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🎳", h:"Der Verfall des Sozialkapitals",
+   body:["Robert D. Putnam, <i>Bowling Alone</i> (2000). Dokumentiert quantitativ den Rückgang von <b>Sozialkapital</b> in den USA seit den 1960ern: Vereine, Kirchgang, Stammtische, Ehrenamt, Nachbarschaft.",
+         "Der Titel ist sprichwörtlich: Die Leute spielen weiter Bowling — aber nicht mehr in Ligen, sondern <b>allein</b>."],
+   tag:"≈ Vereinsamungs-Diagnose"},
+  {t:"info", kicker:"Sozialkapital", emoji:"🔗", h:"Was da zerfällt",
+   body:["„Sozialkapital“ = der Wert von Netzwerken, Vertrauen und Gegenseitigkeit. Putnam zeigt: Es sinkt messbar — mit Folgen für Gesundheit, Demokratie und Glück."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Putnam?",
+   reveal:"Er liefert die <b>Daten</b> zu deiner Vereinsamungs-Diagnose (Teil VI). Was du theoretisch durch die Trias erklärst — Hyperindividualismus + Optimierungsangst + gebaute Umwelt —, hat Putnam empirisch vermessen.<br><br>Wichtig für die „methodische Stelle Empirie“: An solchen Punkten braucht dein System sozialwissenschaftliche Anschlüsse."},
+ ]},
+{ id:"bauman", track:"kua", block:7, icon:"💧",
+ title:"Bauman — Liquid Modernity", author:"Zygmunt Bauman · 2000",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"💧", h:"Die flüchtige Moderne",
+   body:["Zygmunt Bauman (1925–2017), <i>Liquid Modernity</i> (2000). Diagnose: In der „liquiden“ Moderne werden feste Bindungen — Beruf, Ehe, Ort, Identität — zu <b>jederzeit kündbaren Optionen</b>.",
+         "Alles wird flüssig, nichts bleibt fest."],
+   tag:"≈ Schwarm · Schicht 4"},
+  {t:"info", kicker:"Schein-Gemeinschaft", emoji:"🫧", h:"Konsum statt Bindung",
+   body:["Was wie Gemeinschaft aussieht, ist oft <b>Konsumgemeinschaft</b>: gemeinsame Marken, Erlebnisse, Hashtags — ohne wechselseitige Pflege oder Verbindlichkeit."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was sind Baumans „Schein-Schwärme“?",
+   opts:["Stabile Freundeskreise","Flüchtige Konsumgemeinschaften ohne Pflege","Politische Parteien","Familien"],
+   correct:1, fb:"Sie sehen wie Gemeinschaft aus, tragen aber keine gegenseitige Verbindlichkeit."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Bauman?",
+   reveal:"Für die <b>vierte Schicht deiner Schwarmtheorie</b> — negativ gesetzt. Baumans Schein-Schwärme sind flüchtig, konsumistisch, ohne Pflege: <b>funktional tot</b>, auch wenn sie statistisch wie Schwärme aussehen.<br><br>Sie sind genau das, was deine aktiven Schwärme <i>nicht</i> sind. Bauman liefert die Kontrastfolie."},
+ ]},
+/* ============ KUA · BLOCK 9 (RELATIONALE WERTE) ============ */
+{ id:"veblen", track:"kua", block:8, icon:"🎩",
+ title:"Veblen — Theorie der feinen Leute", author:"Thorstein Veblen · 1899",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🎩", h:"Der demonstrative Konsum",
+   body:["Thorstein Veblen (1857–1929), <i>The Theory of the Leisure Class</i> (1899). Prägt den Begriff <b>conspicuous consumption</b> (demonstrativer Konsum): Manche Güter haben Wert nicht durch Gebrauch, sondern durch <b>Sichtbarkeit gegenüber anderen</b> — sie zeigen Status."],
+   tag:"≈ Relationale Werte · Urvater"},
+  {t:"info", kicker:"Der Kern", emoji:"👀", h:"Wert durch Vergleich",
+   body:["Die teure Uhr nützt nicht mehr als die billige — ihr Wert liegt darin, dass andere sie <b>nicht</b> haben.",
+         "Veblen ist der historische Urvater der These, dass manche Werte <b>konstitutiv relational</b> sind."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint „conspicuous consumption“?",
+   opts:["Sparsamer Konsum","Konsum, dessen Wert in der Zur-Schau-Stellung liegt","Nachhaltiger Konsum","Konsum aus reiner Notwendigkeit"],
+   correct:1, fb:"Statuskonsum: Der Wert entsteht durch die Sichtbarkeit, nicht durch den Gebrauch."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Was übernimmst du von Veblen — und was nicht?",
+   reveal:"<b>Übernommen:</b> die Beobachtung, dass Konsum oft positional ist — Wert durch Vergleich, nicht durch Gebrauch.<br><br><b>Nicht übernommen:</b> Veblens Begründung über „barbarische“ Stammesinstinkte (heute unhaltbar). Dein Theorem ruht auf Axiom 4 und 5, nicht auf Vorgeschichte.<br><br><b>Verschoben:</b> Veblen beschreibt, wie <i>die anderen</i> sich verhalten; du fragst, wie <i>ich</i> mich verhalten soll, wenn ich in so einer Welt nach Wohl strebe."},
+ ]},
+{ id:"hirsch", track:"kua", block:8, icon:"📊",
+ title:"Hirsch — Social Limits to Growth", author:"Fred Hirsch · 1976",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📊", h:"Die Erfindung der Positionsgüter",
+   body:["Fred Hirsch (1931–1978), <i>Social Limits to Growth</i> (1976). Prägt den Begriff <b>positional goods</b> (Positionsgüter): Güter, deren Wert konstitutiv davon abhängt, dass andere sie <b>nicht</b> (oder weniger) haben."],
+   tag:"≈ Relationale Werte · Begriffsstifter"},
+  {t:"info", kicker:"Warum Wachstum nicht hilft", emoji:"🏖️", h:"Das Knappheits-Problem",
+   body:["Bei Positionsgütern hilft Wirtschaftswachstum nichts: Wenn alle reicher werden, bleibt der Strandblick, das Spitzen-Wohnviertel, der Top-Studienplatz <b>knapp</b>.",
+         "Mehr Wohlstand für alle macht positionale Güter <b>nicht</b> für alle zugänglich."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür ist Hirsch dein wichtigster ökonomischer Anker?",
+   reveal:"Er ist der <b>Begriffsstifter</b> deiner Positionsgüter-These — der theoretische Hauptanker des Relationale-Werte-Theorems.<br><br>Unterschied: Hirsch denkt makroökonomisch-politisch (Wachstumskrise), du individuell-ethisch (was heißt das für die Wohl-Suche des Einzelnen?). Seine Beobachtung ist dein <b>Hintergrund</b>, nicht dein Endpunkt."},
+ ]},
+{ id:"frank", track:"kua", block:8, icon:"🐟",
+ title:"Frank — Choosing the Right Pond", author:"Robert H. Frank · 1985",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🐟", h:"Großer Fisch, kleiner Teich",
+   body:["Robert H. Frank, <i>Choosing the Right Pond</i> (1985). Verhaltensökonomischer Ausbau von Hirsch.",
+         "Die Titelmetapher ist die Kernfrage: Lieber ein <b>großer Fisch im kleinen Teich</b> oder ein kleiner Fisch im großen?"],
+   tag:"≈ Relationale Werte · empirisch"},
+  {t:"info", kicker:"Vergleichsbezugsgruppen", emoji:"👥", h:"Mit wem du dich misst",
+   body:["Menschen vergleichen sich nicht mit der Gesamtbevölkerung, sondern mit der gewählten <b>Bezugsgruppe</b>.",
+         "Diese Wahl prägt Berufswahl, Wohnort, Konsum — und das eigene Zufriedenheitsgefühl."]},
+  {t:"mc", kicker:"Mini-Check", q:"Wovon hängt laut Frank das Vergleichsgefühl ab?",
+   opts:["Vom Gesamtdurchschnitt der Gesellschaft","Von der gewählten Bezugsgruppe","Vom Einkommen allein","Vom Zufall"],
+   correct:1, fb:"Nicht die Gesamtverteilung zählt, sondern der Teich, in den du dich stellst."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Frank?",
+   reveal:"Er ist dein <b>lebender empirischer Anker</b> für die Mechanik der Selbstzufriedenheit: Das Vergleichsempfinden hängt nicht von der Gesamtverteilung ab, sondern von der gewählten Bezugsgruppe.<br><br><b>Nicht übernommen:</b> Franks Politik-Lösung (progressive Konsumsteuer). Du machst aus der Diagnose eine <b>ethische</b> Aufgabe, keine Strukturpolitik."},
+ ]},
+/* ============ KUA · BLOCK 10 (DIAGNOSE DER MODERNE) ============ */
+{ id:"ehrenberg", track:"kua", block:9, icon:"🪫",
+ title:"Ehrenberg — Das erschöpfte Selbst", author:"Alain Ehrenberg · 1998",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🪫", h:"Depression als Krankheit der Freiheit",
+   body:["Alain Ehrenberg, <i>Das erschöpfte Selbst</i> (1998). Medizinsoziologische These: Der Aufstieg der Depression ist kein Zufall, sondern die Kehrseite der modernen <b>Selbstverwirklichungspflicht</b>."],
+   tag:"≈ Defekthypothese"},
+  {t:"info", kicker:"Schuld → Verantwortung", emoji:"🔀", h:"Die historische Verschiebung",
+   body:["Früher war die <b>Neurose</b> die Krankheit der Schuld (gegen äußere Verbote). Heute ist die <b>Depression</b> die Krankheit der Verantwortung: Man scheitert nicht mehr an Verboten, sondern an <b>sich selbst</b> — am Auftrag, das Beste aus sich zu machen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Ehrenbergs Kernverschiebung lautet …",
+   opts:["Von Arbeit zu Freizeit","Von Schuld (Verbot) zu Verantwortung (Auftrag)","Von Stadt zu Land","Von Religion zu Wissenschaft"],
+   correct:1, fb:"Vom äußeren Verbot zum inneren Auftrag — und daran erschöpft sich das Selbst."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Ehrenberg?",
+   reveal:"Als ersten Teil deiner <b>Defekthypothese-Trias</b> (mit Han und Rosa). Die moderne Erschöpfung ist Folge der Selbstverwirklichungs-Imperative — kein privates Versagen.<br><br>Das stützt deine Coaching-Kritik: Wo das Ich ständig „optimiert“ werden soll, erzeugt das strukturell Erschöpfung."},
+ ]},
+{ id:"han", track:"kua", block:9, icon:"🥱",
+ title:"Han — Müdigkeitsgesellschaft", author:"Byung-Chul Han · 2010",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🥱", h:"Vom Sollen zum Können",
+   body:["Byung-Chul Han, <i>Müdigkeitsgesellschaft</i> (2010) — kurz, scharf, ein Klassiker. These: Die Disziplinargesellschaft (Verbote, „Du sollst“) ist abgelöst durch die <b>Leistungsgesellschaft</b> („Du kannst“)."],
+   tag:"≈ Defekthypothese"},
+  {t:"info", kicker:"Selbstausbeutung", emoji:"⛓️", h:"Freiheit als Falle",
+   body:["Im Leistungssubjekt ist die Macht nicht mehr außen, sondern <b>internalisiert</b>: „Du kannst alles erreichen“ wird zur Selbstausbeutung — effizienter als jeder Zwang, weil es als <b>Freiheit</b> auftritt.",
+         "Ergebnis: Burnout, Depression."]},
+  {t:"mc", kicker:"Mini-Check", q:"Hans Kernformel lautet …",
+   opts:["„Du sollst“ ersetzt „Du kannst“","„Du kannst“ ersetzt „Du sollst“ — und ist als Selbstausbeutung effizienter","Arbeit macht frei","Weniger ist mehr"],
+   correct:1, fb:"Die Macht zieht nach innen und tarnt sich als Freiheit."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Han?",
+   reveal:"Zweiter Teil der <b>Defekthypothese-Trias</b>. Han erklärt, warum die Optimierungslogik so wirksam und so zermürbend ist: Sie tarnt sich als Freiheit.<br><br>Direkte Munition gegen die Coaching- und Selbstoptimierungs-Kultur, die dein Buch kritisiert."},
+ ]},
+{ id:"rosa", track:"kua", block:9, icon:"🌀",
+ title:"Rosa — Beschleunigung & Resonanz", author:"Hartmut Rosa · 2005/2016",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🌀", h:"Die Moderne muss rasen",
+   body:["Hartmut Rosa, <i>Beschleunigung</i> (2005) + <i>Resonanz</i> (2016). Diagnose: Die Moderne kann sich nur <b>dynamisch stabilisieren</b> — sie braucht strukturell Wachstum, Beschleunigung, ständige Steigerung, nur um sich selbst gleich zu bleiben."],
+   tag:"≈ Defekthypothese"},
+  {t:"info", kicker:"Resonanz", emoji:"🎵", h:"Der Gegenentwurf",
+   body:["Rosas positives Konzept: <b>Resonanz</b> = eine lebendige, antwortende Welt-Beziehung — im Gegensatz zur <b>Verfügbarmachung</b>, die alles nur als Ressource behandelt.",
+         "Gutes Leben heißt: Resonanzachsen statt bloßer Steigerung."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Rosa?",
+   reveal:"Dritter Teil der <b>Defekthypothese-Trias</b>. Rosa liefert die Makro-Ebene: Auch Charakter und „Soft Skills“ werden zur Ressource im Steigerungsspiel.<br><br>Sein Resonanzbegriff ist ein <b>Nachbar deines Glücks-Ziels</b> (Satz 2) — Glück als Beziehung, nicht als Besitz."},
+ ]},
+{ id:"taylor", track:"kua", block:9, icon:"🪞",
+ title:"Taylor — Sources of the Self", author:"Charles Taylor · 1989",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🪞", h:"Wie das moderne Ich entstand",
+   body:["Charles Taylor, <i>Sources of the Self</i> (1989). Ein Mammutwerk über die <b>Entstehungsgeschichte der modernen Identität</b>: von Augustinus über Descartes und Locke bis zur Romantik und zum heutigen Authentizitätsethos."],
+   tag:"≈ Methode · Schichten freilegen"},
+  {t:"info", kicker:"Die Pointe", emoji:"🧅", h:"Was natürlich scheint, ist gewachsen",
+   body:["Taylors Bewegung: Er legt die historischen <b>Schichten</b> frei, aus denen unsere heutigen Selbstverständlichkeiten bestehen („sei authentisch“, „verwirkliche dich“) — und zeigt: Sie sind konstruiert und kontingent, nicht Natur."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür ist Taylor dein methodisches Vorbild?",
+   reveal:"Für die Bewegung „<b>historische Schichten freilegen</b>“. Deine Defekthypothese und Coaching-Kritik arbeiten genauso: Was als Natur erscheint (der Optimierungsimperativ), ist historisches Produkt — und <b>kann auch anders</b>.<br><br>Taylor liefert nicht den Inhalt, sondern die Methode der Entlarvung."},
+ ]},
+/* ============ KUA · BLOCK 11 (STADT & GEBAUTE UMWELT) ============ */
+{ id:"alexander", track:"kua", block:10, icon:"🧩",
+ title:"Alexander — A Pattern Language", author:"Christopher Alexander · 1977",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧩", h:"Die Sprache der Muster",
+   body:["Christopher Alexander, <i>A Pattern Language</i> (1977). 253 „Muster“ vom Stadtmaßstab bis zum Türgriff — Bausteine guter Umgebung (kleiner Platz, Arkade, Fensterplatz).",
+         "Jedes Muster löst ein wiederkehrendes Problem des Zusammenlebens."],
+   tag:"≈ gebaute Umwelt"},
+  {t:"info", kicker:"Die Pointe", emoji:"🚪", h:"Begegnung entsteht aus Mustern",
+   body:["Räumliche Gemeinschaft entsteht aus <b>Anlässen und Mustern</b>, nicht aus Adressen: Plätze, Schwellen, Gänge, kleine Geschäfte zu Fuß erreichbar.",
+         "Wo diese Muster fehlen, fehlt Begegnung — auch bei räumlicher Nähe."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Alexander?",
+   reveal:"Für die Diagnose der gebauten Umwelt (Teil VI): Ein räumlicher Schwarm wird nicht durch Kilometer definiert, sondern durch <b>Anlässe und gewachsene Verbindungen</b>.<br><br>Mit Jacobs und Marohn bildet Alexander das Trio, das die Mechanik der vereinsamenden Umwelt beschreibt — neu ist bei dir ihre Verbindung mit einer <b>Ethik des Glücks</b>."},
+ ]},
+{ id:"jacobs", track:"kua", block:10, icon:"👁️",
+ title:"Jacobs — Death and Life of Cities", author:"Jane Jacobs · 1961",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"👁️", h:"Die Verteidigung der lebendigen Stadt",
+   body:["Jane Jacobs, <i>The Death and Life of Great American Cities</i> (1961). Eine Streitschrift gegen die autogerechte Stadtplanung der Moderne (Le Corbusier, Robert Moses).",
+         "Plädoyer für dichte, gemischte, fußläufige Viertel."],
+   tag:"≈ gebaute Umwelt"},
+  {t:"info", kicker:"Eyes on the street", emoji:"👀", h:"Wie Nachbarschaft funktioniert",
+   body:["Jacobs' berühmtes Bild: „<b>Augen auf der Straße</b>“. Die Mischung aus Wohnen, Arbeiten, kleinem Gewerbe und Fußgängern erzeugt informelle Sozialkontrolle und Begegnung.",
+         "Reine Wohngebiete sind tagsüber leer — und damit tot."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint „eyes on the street“?",
+   opts:["Überwachungskameras","Informelle soziale Kontrolle durch belebte, gemischte Straßen","Verkehrssicherheit","Schaufensterbummel"],
+   correct:1, fb:"Belebte, gemischte Straßen passen beiläufig aufeinander auf — Sicherheit ohne Kameras."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Jacobs?",
+   reveal:"Für die These, dass Umgebung Gemeinschaft <b>strukturell</b> ermöglicht oder verhindert: Vorstadt mit Einzelhaus und doppelter Garage erzeugt keine Nachbarschaft, weil die <b>Mischung</b> fehlt.<br><br>Vereinsamung ist damit nicht nur Haltung, sondern <i>gebaut</i>."},
+ ]},
+{ id:"marohn", track:"kua", block:10, icon:"🏘️",
+ title:"Marohn — Strong Towns", author:"Charles Marohn · 2019",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🏘️", h:"Die unbezahlbare Vorstadt",
+   body:["Charles Marohn, <i>Strong Towns</i> (2019), Gründer der gleichnamigen NGO. These: Die US-Vorstadt nach 1945 ist <b>finanziell unrentabel</b> — die Infrastrukturkosten pro Haushalt übersteigen das Steueraufkommen.",
+         "Ein Wachstums-Schneeballsystem, das langfristig nicht trägt."],
+   tag:"≈ gebaute Umwelt"},
+  {t:"info", kicker:"Doppelt unrentabel", emoji:"💸", h:"Auch sozial leer",
+   body:["Marohns Pointe für dich: Die Vorstadt ist auch <b>sozial</b> unrentabel — keine Begegnungsräume, keine Anlässe.",
+         "Die gebaute Umwelt erzeugt Isolation strukturell, nicht nur symbolisch."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Marohn?",
+   reveal:"Als jüngsten und konkretesten Beleg im Trio (mit Jacobs und Alexander) für deine Vereinsamungs-Diagnose.<br><br>Er verbindet Finanz- und Sozialdiagnose: dieselbe gebaute Form, die ökonomisch nicht trägt, trägt auch sozial nicht. Dein eigener Beitrag: diese Mechanik mit einer <b>Ethik des Glücks</b> zu verbinden."},
+ ]},
+/* ============ KUA · BLOCK 12 (DEMOKRATIE & INSTITUTIONEN) ============ */
+{ id:"aristoteles-pol", track:"kua", block:11, icon:"🏛️",
+ title:"Aristoteles — Politik", author:"Aristoteles · ~330 v. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🏛️", h:"Der Mensch ist ein politisches Wesen",
+   body:["Aristoteles, <i>Politik</i>. Der Mensch ist von Natur ein <b>zoon politikon</b> — auf Gemeinschaft angelegt.",
+         "Aristoteles vergleicht Verfassungen (Monarchie, Aristokratie, Politie und ihre Entartungen) und fragt, was eine Polis <b>stabil</b> macht."],
+   tag:"≈ Demokratie als Wohlstandsphänomen"},
+  {t:"info", kicker:"Die bürgerliche Mitte", emoji:"⚖️", h:"Stabilität braucht Mittelschicht",
+   body:["Buch IV: Wo eine starke <b>mittlere Klasse</b> existiert, ist die Verfassung stabil. Extreme Ungleichheit erzeugt Tyrannis oder Mob-Demokratie.",
+         "Die Mitte ist das Gegengewicht."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was macht laut Aristoteles eine Polis stabil?",
+   opts:["Ein starker Alleinherrscher","Eine starke Mittelschicht","Möglichst viel Gleichheit","Militärische Stärke"],
+   correct:1, fb:"Die mittlere Klasse als Puffer gegen die Extreme."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nimmst du die Politik?",
+   reveal:"Als Anfang einer Linie: <b>Aristoteles → Tocqueville → Lipset → Acemoglu/Robinson</b>. Gemeinsam stützen sie die Aussage, dass <b>Demokratie pragmatisch, nicht prinzipiell</b> funktioniert — sie braucht Voraussetzungen (Mitte, Wohlstand, Institutionen).<br><br>Dein „Wohlstandsvorbehalt“ ist damit keine Schwäche der Philosophie, sondern ein Befund über die Demokratie selbst."},
+ ]},
+{ id:"tocqueville", track:"kua", block:11, icon:"🗽",
+ title:"Tocqueville — Demokratie in Amerika", author:"Alexis de Tocqueville · 1835/40",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🗽", h:"Demokratie als Lebensform",
+   body:["Alexis de Tocqueville, <i>Über die Demokratie in Amerika</i> (1835/1840). Aus einer Reisebeobachtung wird eine Strukturanalyse: Was hält die junge amerikanische Demokratie zusammen?"],
+   tag:"≈ Demokratie als Wohlstandsphänomen"},
+  {t:"info", kicker:"Die Voraussetzungen", emoji:"🤝", h:"Vereine, Sitten, Mitte",
+   body:["Tocquevilles Antwort: Vereins- und Gemeindeleben, religiöse Sitten, mittlerer Wohlstand.",
+         "Demokratie ist <b>nicht voraussetzungslos</b> — sie ruht auf einer dichten Zivilgesellschaft."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Tocqueville?",
+   reveal:"Zweites Glied der Demokratie-Linie. Er zeigt: Demokratie braucht material- und kulturzivile Voraussetzungen.<br><br>Das stützt deinen Wohlstandsvorbehalt und verbindet sich direkt mit Putnams „Bowling Alone“ — wenn die Vereine sterben, erodiert Tocquevilles Fundament."},
+ ]},
+{ id:"lipset", track:"kua", block:11, icon:"📈",
+ title:"Lipset — Social Requisites of Democracy", author:"S. M. Lipset · 1959",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📈", h:"Die Modernisierungsthese",
+   body:["Seymour Martin Lipset, „Some Social Requisites of Democracy“ (1959). Gründungstext der <b>Modernisierungstheorie</b>.",
+         "Korrelation: höheres Pro-Kopf-BIP, mehr Bildung, größere Mittelschicht → stabilere Demokratie."],
+   tag:"≈ Demokratie als Wohlstandsphänomen"},
+  {t:"info", kicker:"Robust, mit Ausnahmen", emoji:"🔬", h:"60 Jahre später",
+   body:["Die Korrelation ist bis heute robust — mit lehrreichen Ausnahmen (Indien als arme Demokratie, Singapur als reiche Autokratie).",
+         "Demokratie ist nicht voraussetzungslos; sie braucht soziale Bedingungen, ohne die sie kollabiert."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür stützt Lipset dein System?",
+   reveal:"Drittes Glied der Demokratie-Linie — das <b>sozialwissenschaftlich härteste</b>. Er macht deinen Wohlstandsvorbehalt anschlussfähig an gesicherte Empirie statt an bloße Intuition.<br><br>Zusammen mit Aristoteles, Tocqueville und Acemoglu ein vierfach abgestützter Befund."},
+ ]},
+{ id:"buchanan", track:"kua", block:11, icon:"📜",
+ title:"Buchanan — The Calculus of Consent", author:"Buchanan & Tullock · 1962",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📜", h:"Die Ökonomie der Verfassung",
+   body:["James M. Buchanan (Nobelpreis 1986) & Gordon Tullock, <i>The Calculus of Consent</i> (1962). Begründungstext der <b>Public-Choice-Theorie</b>: Politiker und Wähler handeln wie Marktakteure nach Eigeninteresse — also muss man die <b>Spielregeln</b> klug bauen."],
+   tag:"≈ Mandatstreuhand"},
+  {t:"info", kicker:"Regeln vor Entscheidungen", emoji:"✍️", h:"Konsens über den Rahmen",
+   body:["Buchanans Pointe: Nicht die einzelne Entscheidung, sondern der <b>Rahmen</b> (die Verfassung) muss breit konsentiert sein — am besten beschlossen, bevor man weiß, wem die Regel konkret nützt."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was muss laut Buchanan breit konsentiert sein?",
+   opts:["Jede einzelne politische Entscheidung","Der Verfassungsrahmen vor den Einzelentscheidungen","Die Steuersätze","Gar nichts"],
+   correct:1, fb:"Der Rahmen, nicht der Einzelfall — sonst urteilt man über Inhalte."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Buchanan?",
+   reveal:"Verwandte Position zu deiner <b>Mandatstreuhand</b>: Sie prüft, ob ein Politiker innerhalb seines vor-vereinbarten Rahmens bleibt — <b>ohne über die Inhalte zu urteilen</b> (Anti-Urteils-Prinzip!).<br><br>Linie: Hayek (generelle Regeln) → Buchanan (Verfassungsregeln) → dein System (Treuhand-Konsistenzprüfung)."},
+ ]},
+{ id:"acemoglu", track:"kua", block:11, icon:"🏗️",
+ title:"Acemoglu/Robinson — Why Nations Fail", author:"Acemoglu & Robinson · 2012",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🏗️", h:"Warum Nationen scheitern",
+   body:["Daron Acemoglu & James Robinson, <i>Why Nations Fail</i> (2012). Acemoglu erhielt 2024 den Wirtschaftsnobelpreis.",
+         "These: Über Wohlstand entscheiden <b>Institutionen</b>, nicht Kultur oder Geografie."],
+   tag:"≈ Demokratie als Wohlstandsphänomen"},
+  {t:"info", kicker:"Inklusiv vs. extraktiv", emoji:"🔓", h:"Die zentrale Unterscheidung",
+   body:["<b>Inklusive</b> Institutionen (offene Beteiligung, sichere Eigentumsrechte, breiter Marktzugang) schaffen Wohlstand. <b>Extraktive</b> (eine kleine Elite greift Macht und Ertrag ab) zerstören ihn.",
+         "Demokratie funktioniert nur inklusiv — extraktive Demokratien degenerieren."]},
+  {t:"mc", kicker:"Mini-Check", q:"Welche Institutionen schaffen laut Acemoglu/Robinson Wohlstand?",
+   opts:["Extraktive","Inklusive","Zentralistische","Militärische"],
+   correct:1, fb:"Inklusive Institutionen öffnen Beteiligung und sichern Eigentum — das treibt Wohlstand."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Acemoglu/Robinson?",
+   reveal:"Jüngstes Glied der Demokratie-Linie. Demokratie ist Funktion von <b>Institutionen</b>, nicht nur von Werten oder Wahlen.<br><br>Das nimmt deine Mandatstreuhand ernst: nicht als netter Verbesserungsvorschlag, sondern als <b>institutionelle Bedingung</b> der Lebensfähigkeit deines Systems."},
+ ]},
+/* ============ KUA · BLOCK 13 (ETHIK-SPANNUNGEN & FORM) ============ */
+{ id:"murdoch", track:"kua", block:12, icon:"🔍",
+ title:"Murdoch — The Sovereignty of Good", author:"Iris Murdoch · 1970",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🔍", h:"Aufmerksamkeit als Moral",
+   body:["Iris Murdoch (1919–1999), Philosophin und Romanautorin. <i>The Sovereignty of Good</i> (1970). Gegen die kühle Vernunftethik setzt sie: Moral ist <b>liebevolle Aufmerksamkeit</b> (attention) — das geduldige, gerechte Wahrnehmen des anderen, wie er wirklich ist."],
+   tag:"≈ Satz 5 · Spannungspartnerin"},
+  {t:"info", kicker:"attention", emoji:"💗", h:"Den anderen wirklich sehen",
+   body:["Murdochs Kernbegriff: Wer moralisch aufmerksam ist, kann durch genaue, liebevolle Wahrnehmung den anderen tatsächlich <b>erkennen</b> — und so zu zutreffenden Urteilen über sein Inneres kommen."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Warum ist Murdoch deine schärfste Gegenspielerin?",
+   reveal:"Sie bestreitet dein <b>Axiom 2</b>: „attention“ könne den Zugang zum Inneren des anderen doch herstellen. Dein System sagt: Das wäre der Versuch, durch intensive Wahrnehmung zu legitimer Inferenz zu kommen — und hebelt Axiom 2 aus.<br><br>Deine Antwort: <b>„Eingeständnis ist sauberer als Aufhebung.“</b> Murdoch ist nicht zu widerlegen, sondern zu verorten: Wer ihr folgt, hat ein anderes Axiom 2 — und damit ein anderes System."},
+ ]},
+{ id:"levinas", track:"kua", block:12, icon:"👤",
+ title:"Levinas — Totalität und Unendlichkeit", author:"Emmanuel Levinas · 1961",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"👤", h:"Die Ethik des Antlitzes",
+   body:["Emmanuel Levinas (1906–1995), <i>Totalität und Unendlichkeit</i> (1961). Ethik kommt vor aller Theorie: Das <b>Antlitz des Anderen</b> stellt eine unbedingte Forderung („Du sollst nicht töten“), bevor ich überhaupt etwas über ihn weiß."],
+   tag:"≈ Satz 3/5 · Spannungspartner"},
+  {t:"info", kicker:"Anerkennen statt erkennen", emoji:"🙏", h:"Der Andere als Unendlichkeit",
+   body:["Für Levinas ist der Andere nie zu <b>erkennen</b> (das wäre „Totalität“, Vereinnahmung), sondern nur <b>anzuerkennen</b> (er bleibt „unendlich“).",
+         "Damit umgeht er die Wissensfrage ganz."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wie verhält sich Levinas zu deinem System?",
+   reveal:"Er ist neben Murdoch der zweite klassische Kritiker deiner Anti-Urteils-Position — aber von der anderen Seite: Er <b>akzeptiert</b>, dass man den Anderen nicht erkennen kann, und macht gerade daraus eine ethische Forderung.<br><br>Deine Antwort ist dieselbe wie bei Murdoch: nicht widerlegen, sondern lokalisieren. Wer das Antlitz als Forderung ohne Wissen nimmt, hat ein anderes Axiom 2."},
+ ]},
+{ id:"comte-sponville", track:"kua", block:12, icon:"📗",
+ title:"Comte-Sponville — Kleine Schule der Tugenden", author:"André Comte-Sponville · 1995",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📗", h:"Die kleine Schule der Tugenden",
+   body:["André Comte-Sponville, <i>Petit traité des grandes vertus</i> (1995). 18 Kapitel zu klassischen Tugenden — Höflichkeit, Mut, Gerechtigkeit, Mitgefühl, Demut, Humor, Liebe.",
+         "Tradition kompakt und elegant aufbereitet, ohne Originalitätsanspruch."],
+   tag:"≈ Stil-Vorbild"},
+  {t:"info", kicker:"Warum es sich verkauft", emoji:"💡", h:"Tradition transparent machen",
+   body:["Das Buch verkauft sich seit 30 Jahren, weil es dem Leser die <b>Anstrengung der Quellenarbeit abnimmt</b> — und doch nicht in Pop-Philosophie abrutscht.",
+         "Der eigene Beitrag liegt im klugen Arrangement."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür ist Comte-Sponville dein Vorbild?",
+   reveal:"Markt- und Stilvorbild für deinen <b>Synthetiker-Stil</b>: Tradition transparent machen, eigener Beitrag im Arrangement.<br><br>Er zeigt, dass ein Buch ehrlich „aus zweiter Hand“ sein und trotzdem Niveau und Publikum haben kann — eine gangbare Linie für dein Projekt."},
+ ]},
+{ id:"nozick", track:"kua", block:12, icon:"📖",
+ title:"Nozick — The Examined Life", author:"Robert Nozick · 1989",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📖", h:"Philosophie als Meditation",
+   body:["Robert Nozick (1938–2002), berühmt für „Anarchie, Staat, Utopia“. In <i>The Examined Life</i> (1989) wechselt er den Ton: kurze, persönliche philosophische Meditationen über Liebe, Tod, Glauben, das gute Leben — persönlich, aber nicht autobiografisch."],
+   tag:"≈ Form des Buchs"},
+  {t:"info", kicker:"Die Gattung", emoji:"🧩", h:"Kapitel, die ein Ganzes ergeben",
+   body:["Nozicks Form: durchgearbeitete Einzelstücke, die zusammen ein System ergeben — ohne durchgehende Argumentationskette. Der Autor kommt vor, ohne sich vorzudrängen.",
+         "Keine Aphorismen, sondern argumentative Stücke."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür ist Nozick dein formales Vorbild?",
+   reveal:"Er ist deinem <b>Buchformat formal am nächsten</b>: kurze, durchgearbeitete Stücke, Persönlichkeit ohne Bekenntnis, Aphorismen-Verzicht.<br><br>Nicht übernommen: Nozicks systemloser Aufbau — dein Buch hat eine Architektur (die sechs Axiome), die Nozick nicht beanspruchte."},
+ ]},
+/* ============ KUA · BLOCK 14 (THEOLOGISCHE GRUNDIERUNG · PRIVAT) ============ */
+{ id:"balthasar", track:"kua", block:13, icon:"🕊️",
+ title:"Balthasar — Was dürfen wir hoffen?", author:"Hans Urs von Balthasar · 1986",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🕊️", h:"Dürfen wir hoffen, dass alle gerettet werden?",
+   body:["Hans Urs von Balthasar (1905–1988), katholischer Theologe. In zwei Bändchen (1986/87) stellt er die <b>Apokatastasis-Frage</b>: Dürfen Christen hoffen, dass am Ende <b>alle</b> Menschen gerettet werden?"],
+   tag:"≈ Theologie (privat)"},
+  {t:"info", kicker:"Die feine Unterscheidung", emoji:"🙏", h:"Hoffen, nicht wissen",
+   body:["Balthasars Lösung: Man darf — ja soll — <b>hoffen</b>, dass alle gerettet werden, ohne es zu <b>wissen</b> oder zu <b>lehren</b>.",
+         "Damit ist Apokatastasis kein Lehrsatz (seit dem 5. Jh. als Lehre verworfen), sondern erlaubte Hoffnung."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Balthasar?",
+   reveal:"Tragend für deine private These „Hölle als selbstgewählte Abwesenheit + Apokatastasis-Hoffnung“.<br><br>Wichtig: Status <b>privat</b>, nicht systemtragend — die Theologie ist in der Buchrevision aus dem Hauptteil herausgenommen. Balthasar zeigt die legitime Form: Hoffnung statt Dogma."},
+ ]},
+{ id:"rahner", track:"kua", block:13, icon:"⛪",
+ title:"Rahner — Theologische Schriften", author:"Karl Rahner · 1954–1984",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"⛪", h:"Der große Systematiker",
+   body:["Karl Rahner SJ (1904–1984), einer der einflussreichsten katholischen Theologen des 20. Jahrhunderts. In den „Schriften zur Theologie“ (16 Bände) prägt er u.a. die Rede vom „anonymen Christen“ und eine offene Eschatologie."],
+   tag:"≈ Theologie (privat)"},
+  {t:"info", kicker:"Die leere Hölle", emoji:"🕳️", h:"Reale Möglichkeit, vielleicht leer",
+   body:["Rahners Position zur Hölle: eine <b>reale Möglichkeit</b> (der freie Wille kann Gott endgültig ablehnen), die aber durch Gottes Liebe nicht notwendig realisiert wird. Sie könnte „leer“ sein."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Rahner?",
+   reveal:"Er liefert die mittlere Position der „leere Hölle“-Tradition (Rahner · Balthasar · Lewis · Hart): Hölle bleibt als Möglichkeit erhalten — konsistent mit dem freien Willen —, aber ohne Notwendigkeit.<br><br>Stützt deine private Formel: Hölle ist nicht Strafe, sondern selbstgewählte Abwesenheit."},
+ ]},
+{ id:"cslewis-divorce", track:"kua", block:13, icon:"🚌",
+ title:"C. S. Lewis — The Great Divorce", author:"C. S. Lewis · 1945",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🚌", h:"Eine Busfahrt aus der Hölle",
+   body:["C. S. Lewis, <i>The Great Divorce</i> (1945). Eine theologische Erzählung in Dantes Tradition: eine Busfahrt aus dem „grauen Land“ (Hölle) in die Vorhalle des Himmels — und die Überraschung: Jeder darf bleiben, wenn er nur will."],
+   tag:"≈ Theologie (privat)"},
+  {t:"info", kicker:"Das tragende Bild", emoji:"🔒", h:"Von innen verschlossen",
+   body:["Lewis' Pointe: Die Türen der Hölle sind <b>von innen</b> verschlossen. Wer sich nicht im Himmel niederlassen will, geht zurück — niemand wird gezwungen, niemand gehindert.",
+         "Hölle ist selbstgewählt."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Lewis hier?",
+   reveal:"Dieses Bild übernimmst du direkt: „Hölle ist nicht Strafe, sondern selbstgewählte Abwesenheit Gottes — jederzeit beendbar durch Änderung des eigenen Willens.“<br><br>Anders als „Pardon, ich bin Christ“ (Block 5) steht Lewis hier speziell für die Hölle-Theologie. Status: privat."},
+ ]},
+{ id:"hart", track:"kua", block:13, icon:"♾️",
+ title:"Hart — That All Shall Be Saved", author:"David Bentley Hart · 2019",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"♾️", h:"Die schärfste Universalismus-These",
+   body:["David Bentley Hart, <i>That All Shall Be Saved</i> (2019). Eine ungewöhnlich polemische Verteidigung des theologischen <b>Universalismus</b>: Am Ende werden alle gerettet — die ewige Verdammnis sei moralisch und theologisch unhaltbar."],
+   tag:"≈ Theologie (privat)"},
+  {t:"info", kicker:"Weiter als Balthasar", emoji:"⬆️", h:"Lehre statt Hoffnung",
+   body:["Wo Balthasar bei der <b>Hoffnung</b> bleibt, argumentiert Hart <b>lehrhaft</b> für den Universalismus. Er ist die maximalere Position auf derselben Linie."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Hart?",
+   reveal:"Als Markierung des äußersten Pols der „leere Hölle“-Linie. Dein System bleibt bewusst bei der <b>Hoffnung</b> (Balthasar), nicht bei der Lehre (Hart) — aber Hart zeigt, wie weit man die Linie treiben kann. Status: privat."},
+ ]},
+{ id:"moltmann", track:"kua", block:13, icon:"✝️",
+ title:"Moltmann — Der gekreuzigte Gott", author:"Jürgen Moltmann · 1972",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"✝️", h:"Ein Gott, der mitleidet",
+   body:["Jürgen Moltmann (1926–2024), evangelischer Theologe. <i>Der gekreuzigte Gott</i> (1972): Gottes Macht zeigt sich nicht im Eingriff, sondern in der <b>Selbstpreisgabe</b> am Kreuz. Gott geht ins Leid hinein, statt es von außen zu verhindern."],
+   tag:"≈ Theologie (privat) · Kenosis"},
+  {t:"info", kicker:"Kenosis", emoji:"🩸", h:"Selbstentäußerung Gottes",
+   body:["„Kenosis“ = Selbstentäußerung. Gott begrenzt seine Macht aus Liebe.",
+         "Damit löst sich die Theodizee anders: Gott rechtfertigt das Leid nicht, er <b>teilt</b> es."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür steht Moltmann in deinem System?",
+   reveal:"Mittleres Glied der <b>Kenosis-Linie</b> (Bulgakov orthodox → Moltmann evangelisch → Jonas jüdisch-philosophisch). Gemeinsame Pointe: <b>Gott greift nicht ein, weil Liebe nicht zwingt.</b><br><br>Das ist die theologische Spiegelung deines Anti-Eingriffs-Prinzips. Status: privat."},
+ ]},
+{ id:"bulgakov", track:"kua", block:13, icon:"☦️",
+ title:"Bulgakov — Kenosis", author:"Sergei Bulgakov · 1933 ff.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"☦️", h:"Die russische Kenosis-Theologie",
+   body:["Sergei Bulgakov (1871–1944), russisch-orthodoxer Theologe (und früher Marxist). In seiner großen Trilogie entwickelt er eine <b>Kenosis</b>-Lehre: Gott schafft Raum für freie Geschöpfe durch eigene Selbsteinschränkung."],
+   tag:"≈ Theologie (privat) · Kenosis"},
+  {t:"info", kicker:"Die Pointe", emoji:"🤲", h:"Allmacht, begrenzt durch Liebe",
+   body:["„Gott ist allmächtig, begrenzt nur durch seine eigene Liebe. Diese Selbstbegrenzung ist nicht Schwäche, sondern Konsequenz der Liebe.“"]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Bulgakov?",
+   reveal:"Dogmatischer Hintergrund deiner privaten Position: Gott macht Platz für Freiheit, indem er sich selbst begrenzt — erstes Glied der Kenosis-Linie (Bulgakov → Moltmann → Jonas).<br><br>Status: privat — deine eigene Notiz empfiehlt sogar, ihn im Hauptbuch zu streichen."},
+ ]},
+{ id:"jonas", track:"kua", block:13, icon:"🌑",
+ title:"Jonas — Der Gottesbegriff nach Auschwitz", author:"Hans Jonas · 1984",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🌑", h:"Welcher Gott nach Auschwitz?",
+   body:["Hans Jonas (1903–1993), Philosoph (und Schüler Heideggers). In „Der Gottesbegriff nach Auschwitz“ (1984) fragt er als <b>jüdische Stimme</b>: Wie lässt sich nach der Shoah noch von Gott sprechen?"],
+   tag:"≈ Theologie (privat) · Kenosis"},
+  {t:"info", kicker:"Das Trilemma", emoji:"⚖️", h:"Ein Attribut muss fallen",
+   body:["Drei Attribute Gottes lassen sich nicht alle zugleich halten: <b>Allgüte, Allmacht, Verständlichkeit</b>. Nach Auschwitz muss eines fallen.",
+         "Jonas wählt — wie dein System — die <b>Allmacht</b> ab: Gott hat sich aus Liebe selbst entmächtigt."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür nutzt du Jonas?",
+   reveal:"Strukturparallele zur Kenosis-Theologie, in jüdisch-philosophischem Sprachspiel. Drei Traditionen (Bulgakov, Moltmann, Jonas), <b>gleiche strukturelle Antwort</b>: Gott greift nicht ein.<br><br>Macht die Position anschlussfähig über Konfessionsgrenzen hinweg. Status: privat."},
+ ]},
+{ id:"stump", track:"kua", block:13, icon:"📚",
+ title:"Stump — Wandering in Darkness", author:"Eleonore Stump · 2010",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📚", h:"Theodizee durch Erzählung",
+   body:["Eleonore Stump, <i>Wandering in Darkness</i> (2010), analytische katholische Philosophin. 668 Seiten zum <b>Leidproblem</b> — methodisch ungewöhnlich: Sie liest biblische Erzählungen (Hiob, Abraham, Maria von Bethanien) als philosophisches Material."],
+   tag:"≈ Form-Vorbild (privat)"},
+  {t:"info", kicker:"Die Pointe", emoji:"🔗", h:"Analytik + Narrativ",
+   body:["Stump zeigt, dass analytische Strenge und theologische Tiefe vereinbar sind — argumentative Theologie mit narrativer Substanz, weder Predigt noch trockene Dogmatik."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür ist Stump dein Vorbild?",
+   reveal:"Falls deine Theologie doch in einem Schluss-Essay landet, ist Stump das <b>Formmodell</b>: wie man analytisch und zugleich erzählerisch tief über Glauben schreibt. Status: privat."},
+ ]},
+{ id:"flint", track:"kua", block:13, icon:"🌳",
+ title:"Flint — Divine Providence", author:"Thomas P. Flint · 1998",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🌳", h:"Wie passen Allwissen und Freiheit?",
+   body:["Thomas P. Flint, <i>Divine Providence</i> (1998), Standardwerk zum <b>Molinismus</b>. Er rekonstruiert Luis de Molinas Lehre vom „mittleren Wissen“ (scientia media) mit moderner Modaltheorie."],
+   tag:"≈ Theologie (privat)"},
+  {t:"info", kicker:"Mittleres Wissen", emoji:"🌿", h:"Der Möglichkeits-Baum",
+   body:["Gott kennt alle möglichen Welten und weiß, was jedes freie Geschöpf in jeder Lage tun <b>würde</b> — ohne es zu determinieren.",
+         "So sind Allwissen und freier Wille vereinbar: Zukunft als Möglichkeits-Baum, nicht als feste Linie."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Flint?",
+   reveal:"Tragend für das <b>Molinismus-Element</b> deiner privaten Position: „Möglichkeits-Baum statt linearer Zukunft.“ Es löst das Problem, wie Gott alles wissen und der Mensch trotzdem frei sein kann. Status: privat."},
+ ]},
+{ id:"pieper", track:"kua", block:13, icon:"⚓",
+ title:"Pieper — Über die Hoffnung", author:"Josef Pieper · 1949",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"⚓", h:"Die Tugend der Hoffnung",
+   body:["Josef Pieper (1904–1997), katholischer Philosoph der thomistischen Tradition. <i>Über die Hoffnung</i> (1949) deutet die <b>acedia</b> (Trägheit) neu: nicht körperliche Faulheit, sondern „Verzweiflung in Verkleidung“ — die Weigerung, das Eigentliche zu suchen, weil es zu mühsam scheint."],
+   tag:"≈ private Selbstanwendung"},
+  {t:"info", kicker:"Die Pointe", emoji:"🎭", h:"Trägheit als getarnte Verzagtheit",
+   body:["Der Träge hat die Hoffnung auf das Eigentliche aufgegeben und maskiert das als Bescheidenheit. Trägheit ist die <b>Anti-Bewegung zur Übung</b>."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Welchen Status hat Pieper bei dir?",
+   reveal:"In v0.4 war er Hauptanker einer „Trägheits-Position“. In der Revision (v0.6) zurückgenommen: Trägheit als Diagnose über <i>andere</i> kollidiert mit dem Anti-Urteils-Prinzip.<br><br>Was bleibt: Pieper als Anker für die <b>private Selbstanwendung</b> — du darfst <i>dich selbst</i> fragen, ob du Bequemlichkeit für Wohl hältst. Status: privat."},
+ ]},
 ];
 
 /* ===================== STATE ===================== */
@@ -670,6 +1238,7 @@ function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
 let S=load();
 S.xp=S.xp||0; S.lessons=S.lessons||{}; S.streak=S.streak||0; S.lastDay=S.lastDay||null;
 S.track=S.track||"kua";
+S.review=S.review||{};
 /* migrate v1 progress if present */
 (function migrate(){
   try{
@@ -708,6 +1277,15 @@ function renderHome(){
   home.classList.toggle("allgmode", tk==="allg");
   const list=document.getElementById("lessonList");
   list.innerHTML="";
+  const due=dueReviews().length;
+  if(due>0){
+    const rb=document.createElement("button");
+    rb.className="reviewbanner";
+    rb.onclick=startReview;
+    rb.innerHTML='<span class="rb-ic">🔁</span><div class="rb-body"><div class="rb-t">'+due+' Karte'+(due>1?"n":"")+' fällig</div>'+
+      '<div class="rb-s">Wiederholen — Fehler ins Langzeitgedächtnis bringen</div></div><span class="chev">›</span>';
+    list.appendChild(rb);
+  }
   BLOCKS[tk].forEach((b,bi)=>{
     const ls=LESSONS.filter(l=>l.track===tk && l.block===bi);
     if(!ls.length) return;
@@ -735,10 +1313,10 @@ function renderHome(){
 }
 
 /* ===================== RUNNER ===================== */
-let cur=null, idx=0, answered=false, correctCount=0, answeredCount=0;
+let cur=null, idx=0, answered=false, correctCount=0, answeredCount=0, reviewMode=false;
 function startLesson(id){
   cur=LESSONS.find(l=>l.id===id);
-  idx=0; correctCount=0; answeredCount=0;
+  idx=0; correctCount=0; answeredCount=0; reviewMode=false;
   document.getElementById("homeView").style.display="none";
   const lv=document.getElementById("lessonView");
   lv.style.display="block";
@@ -789,8 +1367,9 @@ function pick(i){
     else if(oi===i) o.classList.add("wrong"); else o.classList.add("dim");
   });
   const fb=document.getElementById("fb");
-  if(i===c.correct){ correctCount++; fb.className="fb ok show"; fb.innerHTML="<b>Richtig ✓</b>"+c.fb; }
-  else { fb.className="fb no show"; fb.innerHTML="<b>Nicht ganz</b>"+c.fb; }
+  const lid=reviewMode?c._lid:cur.id, ci=reviewMode?c._ci:idx;
+  if(i===c.correct){ correctCount++; fb.className="fb ok show"; fb.innerHTML="<b>Richtig ✓</b>"+c.fb; scheduleReview(lid,ci,true); }
+  else { fb.className="fb no show"; fb.innerHTML="<b>Nicht ganz</b>"+c.fb; scheduleReview(lid,ci,false); }
   document.getElementById("actBtn").disabled=false;
 }
 function onAct(){
@@ -800,15 +1379,34 @@ function onAct(){
       document.getElementById("actBtn").textContent="Weiter"; document.getElementById("actBtn").className="btn"; return; } }
   if(c.t==="recall"){ const el=document.getElementById("recall");
     if(el && !el.classList.contains("open")){ el.classList.add("open");
-      document.getElementById("actBtn").textContent="Weiter"; document.getElementById("actBtn").className="btn"; return; } }
+      const act=document.getElementById("actBtn"); act.style.display="none";
+      const gb=document.createElement("div"); gb.className="graderow";
+      gb.innerHTML='<button class="gradebtn no" onclick="gradeRecall(false)">👎 Nochmal</button>'+
+                   '<button class="gradebtn ok" onclick="gradeRecall(true)">👍 Wusste ich</button>';
+      document.getElementById("cardSlot").appendChild(gb);
+      return; } }
+  nextCard();
+}
+function nextCard(){
   idx++;
   if(idx>=cur.cards.length){ finishLesson(); return; }
   renderCard();
-  const pr=S.lessons[cur.id]||{};
-  if(!pr.done){ pr.progress=Math.round((idx/cur.cards.length)*100); S.lessons[cur.id]=pr; save(S); }
+  if(!reviewMode){
+    const pr=S.lessons[cur.id]||{};
+    if(!pr.done){ pr.progress=Math.round((idx/cur.cards.length)*100); S.lessons[cur.id]=pr; save(S); }
+  }
+}
+function gradeRecall(ok){
+  const c=cur.cards[idx];
+  const lid=reviewMode?c._lid:cur.id, ci=reviewMode?c._ci:idx;
+  if(reviewMode){ answeredCount++; if(ok) correctCount++; }
+  scheduleReview(lid,ci,ok);
+  document.getElementById("actBtn").style.display="";
+  nextCard();
 }
 function finishLesson(){
   document.getElementById("pbarFill").style.width="100%";
+  if(reviewMode){ finishReview(); return; }
   const wasDone=(S.lessons[cur.id]||{}).done;
   const gained = wasDone? 0 : 20 + correctCount*5;
   S.xp += gained;
@@ -825,6 +1423,92 @@ function finishLesson(){
   act.textContent="Zurück zur Übersicht"; act.className="btn"; act.disabled=false;
   act.onclick=function(){ act.onclick=onAct; renderHome(); };
 }
+
+/* ===================== WIEDERHOLUNG (SPACED REPETITION) ===================== */
+/* Falsch beantwortete Quiz-/Recall-Karten wandern in eine Warteschlange.
+   Bei jedem korrekten Durchgang wächst das Intervall (1→3→7→21→60 Tage),
+   bei Fehler springt es zurück auf 0 (heute fällig). So wandert Gelerntes
+   schrittweise vom Kurzzeit- ins Langzeitgedächtnis. */
+const SR_STEPS=[1,3,7,21,60];
+function addDays(iso,d){ const dt=new Date(iso+"T00:00:00"); dt.setDate(dt.getDate()+d); return dt.toISOString().slice(0,10); }
+function cardKey(lid,ci){ return lid+"#"+ci; }
+function scheduleReview(lid,ci,ok){
+  if(!lid && lid!==0) return;
+  const k=cardKey(lid,ci); let r=S.review[k];
+  const t=today();
+  if(!ok){
+    r=r||{lid:lid, ci:ci, step:0, lapses:0};
+    r.step=0; r.lapses=(r.lapses||0)+1; r.due=t;     /* sofort wieder fällig */
+    S.review[k]=r;
+  } else {
+    if(!r) return;                                   /* nur Gemerktes verfolgen, das mind. 1× falsch war */
+    r.step=(r.step||0)+1;
+    if(r.step>=SR_STEPS.length){ delete S.review[k]; save(S); return; }  /* gemeistert → raus */
+    r.due=addDays(t, SR_STEPS[r.step]);
+    S.review[k]=r;
+  }
+  save(S);
+}
+function dueReviews(){
+  const t=today();
+  return Object.keys(S.review).map(k=>S.review[k]).filter(r=>r && r.due && r.due<=t);
+}
+function buildReviewDeck(){
+  const out=[];
+  dueReviews().forEach(r=>{
+    const les=LESSONS.find(l=>l.id===r.lid); if(!les) return;
+    const c=les.cards[r.ci]; if(!c || (c.t!=="mc" && c.t!=="recall")) return;
+    const copy=Object.assign({},c); copy._lid=r.lid; copy._ci=r.ci; copy._src=les.title;
+    out.push(copy);
+  });
+  for(let i=out.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const tmp=out[i]; out[i]=out[j]; out[j]=tmp; }
+  return out;
+}
+function startReview(){
+  const deck=buildReviewDeck();
+  if(!deck.length){ renderHome(); return; }
+  cur={ id:"__review__", title:"Wiederholung", track:S.track, cards:deck };
+  reviewMode=true; idx=0; correctCount=0; answeredCount=0;
+  document.getElementById("homeView").style.display="none";
+  const lv=document.getElementById("lessonView"); lv.style.display="block"; lv.classList.remove("allgrun");
+  document.getElementById("streakNum2").textContent=S.streak;
+  const act=document.getElementById("actBtn"); act.style.display=""; act.onclick=onAct;
+  window.scrollTo(0,0); renderCard();
+}
+function finishReview(){
+  const n=cur.cards.length;
+  const gained=correctCount*3;
+  S.xp+=gained; bumpStreak(); save(S);
+  const stillDue=dueReviews().length;
+  document.getElementById("cardSlot").innerHTML='<div class="done-scr">'+
+     '<div class="big">🧠</div><h2>Wiederholung geschafft!</h2><p>'+n+' Karte'+(n>1?"n":"")+' wiederholt</p>'+
+     '<div class="scorebox">'+
+       '<div><div class="v">'+correctCount+'/'+(answeredCount||n)+'</div><div class="l">gewusst</div></div>'+
+       '<div><div class="v">+'+gained+'</div><div class="l">XP</div></div>'+
+       '<div><div class="v">🔥 '+S.streak+'</div><div class="l">Streak</div></div></div>'+
+     '<p class="foothint">'+(stillDue>0?('Noch '+stillDue+' fällig — dranbleiben lohnt sich.'):'Alles wiederholt. Was du nicht wusstest, kommt in 1–3 Tagen erneut — so verankert es sich.')+'</p></div>';
+  reviewMode=false;
+  const act=document.getElementById("actBtn");
+  act.style.display=""; act.textContent="Zurück zur Übersicht"; act.className="btn"; act.disabled=false;
+  act.onclick=function(){ act.onclick=onAct; renderHome(); };
+}
+(function injectReviewCSS(){
+  const css=
+   '.reviewbanner{display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;'+
+     'border:none;border-radius:18px;padding:16px 18px;margin:4px 0 22px;'+
+     'background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;box-shadow:0 6px 18px rgba(79,70,229,.35);}'+
+   '.reviewbanner .rb-ic{font-size:30px;line-height:1;}'+
+   '.reviewbanner .rb-body{flex:1;}'+
+   '.reviewbanner .rb-t{font-weight:800;font-size:17px;}'+
+   '.reviewbanner .rb-s{font-size:13px;opacity:.9;margin-top:2px;}'+
+   '.reviewbanner .chev{font-size:26px;opacity:.85;}'+
+   '.graderow{display:flex;gap:12px;margin:18px 4px 4px;}'+
+   '.gradebtn{flex:1;border:none;border-radius:14px;padding:15px 10px;font-size:16px;font-weight:700;cursor:pointer;color:#fff;}'+
+   '.gradebtn.ok{background:#16a34a;}'+
+   '.gradebtn.no{background:#e11d48;}'+
+   '.gradebtn:active{transform:translateY(1px);}';
+  const s=document.createElement("style"); s.textContent=css; document.head.appendChild(s);
+})();
 
 renderHome();
 </script>
