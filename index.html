@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#3b6e58">
+<title>Philosophie lernen — Kenntnis & Anmaßung</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f7f6f2; --card:#ffffff; --ink:#1c1b18; --muted:#6b6862; --line:#e7e4dc;
+  --brand:#3b6e58; --brand-soft:#e7f0ea; --gold:#c9a227;
+  --right:#3b6e58; --right-soft:#e7f0ea; --wrong:#b4452f; --wrong-soft:#f6e6e1;
+  --accent:#6a4c93; --accent-soft:#efe9f5;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px;
+  padding-top:env(safe-area-inset-top);padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+.top{position:sticky;top:0;z-index:5;background:var(--bg);
+  display:flex;align-items:center;gap:12px;padding:12px 0 10px}
+.top .stat{display:flex;align-items:center;gap:5px;font-weight:700;font-size:15px}
+.top .stat small{font-weight:600;color:var(--muted);font-size:13px}
+.flame{color:var(--gold)} .xp{color:var(--brand)}
+.top .back{font-size:22px;line-height:1;color:var(--ink);padding:4px 8px;margin-left:-8px}
+.spacer{flex:1}
+
+.hero{padding:8px 2px 4px}
+.hero h1{font-size:21px;margin:0 0 4px;letter-spacing:-.01em}
+.hero p{margin:0;color:var(--muted);font-size:14px}
+
+.tabs{display:flex;gap:8px;margin:16px 0 6px}
+.tab{flex:1;text-align:center;padding:11px 8px;border-radius:12px;font-weight:700;
+  font-size:14px;background:var(--card);border:1px solid var(--line);color:var(--muted)}
+.tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tab.active.allg{background:var(--accent);border-color:var(--accent)}
+
+.blockhdr{display:flex;align-items:baseline;gap:8px;margin:22px 2px 10px}
+.blockhdr .n{font-size:12px;font-weight:800;color:var(--brand);
+  background:var(--brand-soft);padding:2px 8px;border-radius:999px;letter-spacing:.02em}
+.allgmode .blockhdr .n{color:var(--accent);background:var(--accent-soft)}
+.blockhdr h2{font-size:15px;margin:0;font-weight:700}
+.blockhdr .sub{font-size:12px;color:var(--muted)}
+
+.lesson{display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px;margin-bottom:10px;box-shadow:var(--shadow);transition:transform .08s}
+.lesson:active{transform:scale(.99)}
+.badge{flex:none;width:46px;height:46px;border-radius:14px;display:flex;
+  align-items:center;justify-content:center;font-size:22px;background:var(--brand-soft)}
+.allgmode .badge{background:var(--accent-soft)}
+.lesson.done .badge{background:var(--brand);color:#fff}
+.allgmode .lesson.done .badge{background:var(--accent)}
+.l-body{flex:1;min-width:0}
+.l-body .t{font-weight:700;font-size:15px}
+.l-body .a{font-size:12.5px;color:var(--muted);margin-top:1px}
+.l-prog{height:6px;border-radius:999px;background:var(--line);margin-top:8px;overflow:hidden}
+.l-prog i{display:block;height:100%;background:var(--brand);width:0}
+.allgmode .l-prog i{background:var(--accent)}
+.chev{flex:none;color:var(--muted);font-size:20px}
+
+#lessonView{display:none}
+.pbar{flex:1;height:12px;border-radius:999px;background:var(--line);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+.allgrun .pbar i{background:var(--accent)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:22px 20px;box-shadow:var(--shadow);min-height:230px;animation:pop .25s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--brand);margin-bottom:10px}
+.allgrun .kicker{color:var(--accent)}
+.card h3{font-size:20px;margin:0 0 10px;letter-spacing:-.01em}
+.card p{margin:0 0 12px;font-size:15.5px}
+.card p:last-child{margin-bottom:0}
+.card .lead{font-size:16px}
+.tagline{display:inline-block;font-size:12.5px;color:var(--brand);font-weight:700;
+  background:var(--brand-soft);padding:4px 10px;border-radius:999px;margin-top:6px}
+.allgrun .tagline{color:var(--accent);background:var(--accent-soft)}
+.emoji-big{font-size:34px;display:block;margin-bottom:6px}
+
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  background:#fff;border:2px solid var(--line);border-radius:14px;
+  padding:13px 14px;font-size:15px;color:var(--ink);transition:.12s}
+.opt:active{transform:scale(.99)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:7px;background:var(--bg);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:var(--muted)}
+.opt.correct{border-color:var(--right);background:var(--right-soft)}
+.opt.correct .k{background:var(--right);color:#fff;border-color:var(--right)}
+.opt.wrong{border-color:var(--wrong);background:var(--wrong-soft)}
+.opt.wrong .k{background:var(--wrong);color:#fff;border-color:var(--wrong)}
+.opt.dim{opacity:.5} .opt[disabled]{cursor:default}
+
+.flip .front{font-size:17px;font-weight:600}
+.flip .reveal{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);display:none;animation:pop .2s ease}
+.flip.open .reveal{display:block}
+
+.recall .prompt{font-size:17px;font-weight:600;margin-bottom:6px}
+.recall .hint{font-size:13px;color:var(--muted)}
+.recall .model{margin-top:14px;padding:14px;border-radius:12px;background:var(--brand-soft);font-size:14.5px;display:none;animation:pop .2s ease}
+.allgrun .recall .model{background:var(--accent-soft)}
+.recall.open .model{display:block}
+.recall .model b{color:var(--brand)} .allgrun .recall .model b{color:var(--accent)}
+
+.fb{margin-top:14px;padding:13px 14px;border-radius:12px;font-size:14.5px;display:none}
+.fb.show{display:block;animation:pop .2s ease}
+.fb.ok{background:var(--right-soft);color:#27503f}
+.fb.no{background:var(--wrong-soft);color:#7d2c1c}
+.fb b{display:block;margin-bottom:2px}
+
+.foot{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 26%);
+  padding:14px 0 calc(8px + env(safe-area-inset-bottom));margin-top:18px}
+.btn{width:100%;background:var(--brand);color:#fff;font-weight:800;font-size:16px;
+  padding:15px;border-radius:14px;letter-spacing:.01em;box-shadow:var(--shadow);transition:.1s}
+.allgrun .btn{background:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn[disabled]{opacity:.4;cursor:default}
+
+.done-scr{text-align:center;padding:30px 16px}
+.done-scr .big{font-size:54px}
+.done-scr h2{margin:8px 0 4px;font-size:24px}
+.done-scr p{color:var(--muted);margin:0 0 18px}
+.scorebox{display:flex;gap:12px;justify-content:center;margin:18px 0 4px}
+.scorebox div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 18px;box-shadow:var(--shadow)}
+.scorebox .v{font-size:22px;font-weight:800;color:var(--brand)}
+.allgrun .scorebox .v{color:var(--accent)}
+.scorebox .l{font-size:12px;color:var(--muted)}
+.foothint{text-align:center;font-size:12px;color:var(--muted);margin-top:18px;padding:0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="homeView">
+    <div class="top">
+      <div class="stat flame">🔥 <span id="streakNum">0</span> <small>Tage</small></div>
+      <div class="spacer"></div>
+      <div class="stat xp">⭐ <span id="xpNum">0</span> <small>XP</small></div>
+    </div>
+    <div class="hero">
+      <h1>Philosophie lernen</h1>
+      <p>Kleine Häppchen, eine Lektion pro Zugfahrt. Fortschritt wird auf diesem Gerät gespeichert.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab" id="tabKua" onclick="switchTrack('kua')">📕 Deine Quellen</button>
+      <button class="tab allg" id="tabAllg" onclick="switchTrack('allg')">🌍 Philosophie allgemein</button>
+    </div>
+    <div id="lessonList"></div>
+    <div class="foothint">Mehr Lektionen kommen mit der Zeit dazu.</div>
+  </div>
+
+  <div id="lessonView">
+    <div class="top">
+      <button class="back" onclick="quitLesson()">✕</button>
+      <div class="pbar"><i id="pbarFill"></i></div>
+      <div class="stat flame">🔥 <span id="streakNum2">0</span></div>
+    </div>
+    <div id="cardSlot"></div>
+    <div class="foot"><button class="btn" id="actBtn" onclick="onAct()">Weiter</button></div>
+  </div>
+</div>
+
+<script>
+/* ===================== BLÖCKE ===================== */
+const BLOCKS = {
+  kua:[
+    {n:"Block 1", title:"Epistemische Grundlage", sub:"Warum Wissen begrenzt ist — das Fundament deines Titels"},
+    {n:"Block 2", title:"Stoischer Block", sub:"Anmaßung als Haltungsproblem"},
+    {n:"Block 3", title:"Existenzielle Dimension", sub:"Sinn statt aufgezwungenem Wert"},
+    {n:"Block 4", title:"Politische Dimension", sub:"Die Grenze des Eigenen"},
+    {n:"Block 5", title:"Ergänzende Perspektiven", sub:"Hedonistisches Ziel & theologische Grundierung"},
+  ],
+  allg:[
+    {n:"Start", title:"Grundlagen", sub:"Die Landkarte der Philosophie"},
+    {n:"Antike", title:"Das Fundament", sub:"Wo alles begann"},
+    {n:"Neuzeit", title:"Die Erkenntnisfrage", sub:"Was und wie können wir wissen?"},
+    {n:"Moderne", title:"Aufklärung & danach", sub:"Vernunft, Werte, Existenz"},
+  ]
+};
+
+/* ===================== LEKTIONEN ===================== */
+const LESSONS = [
+/* ============ KUA · BLOCK 1 ============ */
+{ id:"taleb-bs", track:"kua", block:0, icon:"🦢",
+ title:"Taleb — The Black Swan", author:"Nassim Nicholas Taleb · 2007",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🎯", h:"Das Fundament deines Titels",
+   body:["Dein Buchtitel ist im Kern eine <b>erkenntnistheoretische These</b>: dass unser Wissen Grenzen hat — und wir das chronisch unterschätzen.",
+         "Taleb liefert genau deren Begründung. Sein Name dafür: <b>epistemische Arroganz</b>. Das ist wörtlich deine „Anmaßung“."],
+   tag:"≈ Satz 3 · Anti-Urteils-Prinzip"},
+  {t:"info", kicker:"Der Begriff", emoji:"🦢", h:"Was ist ein Schwarzer Schwan?",
+   body:["Ein Ereignis mit <b>drei Merkmalen</b>:",
+         "1) Es liegt <b>außerhalb</b> der regulären Erwartung.<br>2) Es hat <b>extreme Wirkung</b>.<br>3) Im <b>Nachhinein</b> basteln wir eine Geschichte, die es vorhersehbar erscheinen lässt.",
+         "Beispiele: 9/11, das Internet, ein Börsencrash, der Bestseller „aus dem Nichts“."]},
+  {t:"mc", kicker:"Mini-Check", q:"Welches ist <b>kein</b> Merkmal eines Schwarzen Schwans?",
+   opts:["Extreme Wirkung","Es war vorher klar vorhersehbar","Im Nachhinein wird es für erklärbar gehalten","Es liegt außerhalb der regulären Erwartung"],
+   correct:1, fb:"Genau umgekehrt: Ein Schwarzer Schwan ist <b>nicht</b> vorhersehbar — er wirkt nur <i>hinterher</i> so."},
+  {t:"info", kicker:"Das Bild, das bleibt", emoji:"🦃", h:"Der Truthahn",
+   body:["Ein Truthahn wird 1000 Tage gefüttert und schließt mit wachsender Sicherheit: Die Menschen meinen es gut mit mir.",
+         "Sein Vertrauen ist am <b>höchsten</b> — am Tag vor Thanksgiving.",
+         "Lehre: Aus noch so vielen Beobachtungen kannst du die <b>Katastrophe nicht ausschließen</b>."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was ist die Lehre aus dem Truthahn?",
+   opts:["Mehr Daten führen immer zu sichereren Urteilen","Vergangenheitsdaten können die Katastrophe nicht ausschließen","Tiere können nicht rechnen","Man sollte Statistik meiden"],
+   correct:1, fb:"Richtig. Das Vertrauen wuchs mit den Daten — und war im Moment des Bruchs am größten."},
+  {t:"info", kicker:"Die Kern-Unterscheidung", emoji:"⚖️", h:"Mediokristan vs. Extremistan",
+   body:["<b>Mediokristan:</b> Keine einzelne Beobachtung dominiert das Ganze (Körpergröße). Hier funktioniert die Glockenkurve.",
+         "<b>Extremistan:</b> Ein einziges Ereignis dominiert die Summe (Vermögen, Buchverkäufe, Märkte).",
+         "Der <b>Kardinalfehler</b>: Werkzeuge aus Mediokristan auf Extremistan anwenden."]},
+  {t:"mc", kicker:"Mini-Check", q:"Welcher Bereich gehört zu <b>Extremistan</b>?",
+   opts:["Körpergröße der Menschen","Tagestemperatur in Berlin","Vermögensverteilung","Schuhgröße"],
+   correct:2, fb:"Vermögen: Eine einzige Person kann den Durchschnitt einer ganzen Stichprobe sprengen."},
+  {t:"info", kicker:"Drei Illusionen", emoji:"🌫️", h:"Warum wir Wissen vortäuschen",
+   body:["<b>Narrative Verzerrung:</b> Wir zwingen Geschichten auf den Zufall.",
+         "<b>Stummes Zeugnis</b> (Survivorship): Wir sehen Überlebende, nie den Friedhof.",
+         "<b>Ludische Verzerrung:</b> Wir verwechseln die saubere Zufälligkeit von Spielen mit echter Unsicherheit."]},
+  {t:"mc", kicker:"Mini-Check", q:"Du bewunderst nur erfolgreiche Gründer und übersiehst die Gescheiterten mit gleicher Strategie. Welcher Denkfehler?",
+   opts:["Ludische Verzerrung","Stummes Zeugnis (Survivorship)","Narrative Verzerrung","Mediokristan-Fehler"],
+   correct:1, fb:"Der „Friedhof“ bleibt unsichtbar — und verzerrt, was wir für Erfolgsrezepte halten."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Taleb in <i>Kenntnis und Anmaßung</i>?",
+   reveal:"Als <b>epistemisches Fundament für Satz 3</b>: Wenn wir schon messbare Systeme nicht zuverlässig beurteilen können, dann erst recht nicht das <b>Glück eines anderen Menschen</b>.<br><br>Dein Anti-Urteils-Prinzip ist damit keine moralische Bescheidenheit, sondern eine <b>erkenntnistheoretische Notwendigkeit</b>. Der Truthahn stützt zusätzlich deine „Qualitative Längskenntnis“."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Warum macht „mehr Daten“ das Urteil nicht automatisch sicherer?", hint:"Denk an den Truthahn und an Extremistan.",
+   model:"<b>Stichpunkte:</b> In Extremistan kommt das Entscheidende aus seltenen Ausreißern, die in den bisherigen Daten gar nicht vorkommen. Mehr Beobachtungen aus der ruhigen Zeit erhöhen nur das <i>Gefühl</i> von Sicherheit, nicht das Wissen über den Bruch."},
+ ]},
+{ id:"surowiecki", track:"kua", block:0, icon:"🐝",
+ title:"Surowiecki — Die Weisheit der Vielen", author:"James Surowiecki · 2004",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🐝", h:"Das Gegengewicht zu Taleb",
+   body:["Taleb zeigt: Einzel-Wissen ist begrenzt. Surowiecki zeigt die andere Seite: Unter den richtigen Bedingungen ist das <b>verteilte Wissen vieler</b> erstaunlich treffsicher — oft besser als jeder Experte.",
+         "Das ist die <b>positive</b> Seite deiner Schwarmtheorie."], tag:"≈ Satz 6 · Schwarm-Engagement"},
+  {t:"info", kicker:"Das Gründungsbeispiel", emoji:"🐂", h:"Galtons Ochse",
+   body:["1906, ein Viehmarkt: Rund 800 Leute schätzen das Gewicht eines Ochsen. Einzeln liegen die meisten daneben.",
+         "Aber der <b>Durchschnitt aller Schätzungen</b> trifft fast exakt (1197 vs. 1198 Pfund) — besser als jeder Viehexperte."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was zeigt das Galton-Beispiel?",
+   opts:["Experten irren immer","Der Durchschnitt vieler unabhängiger Schätzungen kann genauer sein als jeder Einzelne","Schätzen ist sinnlos","Mehrheiten haben moralisch recht"],
+   correct:1, fb:"Die individuellen Fehler heben sich auf — übrig bleibt das gebündelte Wissen."},
+  {t:"info", kicker:"Die Bedingungen", emoji:"🧩", h:"Vier Voraussetzungen",
+   body:["Schwärme sind nur klug, wenn vier Dinge gegeben sind:",
+         "<b>1) Meinungsvielfalt</b><br><b>2) Unabhängigkeit</b> — Urteile beeinflussen sich nicht.<br><b>3) Dezentralisierung</b> — lokales Wissen.<br><b>4) Aggregation</b> — ein Mechanismus, der alles bündelt."]},
+  {t:"mc", kicker:"Mini-Check", q:"Alle ahmen einander nach (Herdentrieb). Welche Bedingung ist verletzt?",
+   opts:["Aggregation","Dezentralisierung","Unabhängigkeit","Meinungsvielfalt"],
+   correct:2, fb:"Ohne Unabhängigkeit verstärken sich Fehler, statt sich auszugleichen."},
+  {t:"info", kicker:"Die Kehrseite", emoji:"📉", h:"Wann Schwärme dumm werden",
+   body:["Brechen Unabhängigkeit und Vielfalt zusammen, kippt die Weisheit in <b>Herdenverhalten</b>: Informationskaskaden, Blasen, Panik.",
+         "Die Masse ist also nicht <i>per se</i> klug — nur unter den vier Bedingungen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Eine Börsenblase ist ein Beispiel für …",
+   opts:["gelungene Aggregation","den Zusammenbruch der Unabhängigkeit","zu viel Meinungsvielfalt","Dezentralisierung"],
+   correct:1, fb:"Jeder kauft, weil die anderen kaufen — Urteile sind nicht mehr unabhängig."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Surowiecki?",
+   reveal:"Er ist die <b>theoretische Stütze deiner Schwarmtheorie</b> und begründet <b>Satz 6</b>: warum verteiltes Engagement sinnvoll ist — und warum der Einzelne sich nicht <i>über</i> den Schwarm stellen sollte.<br><br>Mit Taleb ergibt sich deine Doppelthese: individuelles Urteil schwach (Taleb), kollektive Aggregation unter Bedingungen stark (Surowiecki)."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Warum ist „die Masse“ nicht automatisch klug? Welche Bedingung kippt am leichtesten?", hint:"Vier Bedingungen — welche zuerst?",
+   model:"<b>Stichpunkte:</b> Klug nur bei Vielfalt, Unabhängigkeit, Dezentralisierung, Aggregation. Am leichtesten kippt die <b>Unabhängigkeit</b>: Sobald Menschen sehen, was andere tun, ahmen sie nach — Fehler korrelieren zu Blasen/Panik."},
+ ]},
+/* ============ KUA · BLOCK 2 (STOA) ============ */
+{ id:"epiktet", track:"kua", block:1, icon:"🏛️",
+ title:"Epiktet — Handbüchlein der Moral", author:"Epiktet · ~125 n. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🏛️", h:"Vom Wissen zur Haltung",
+   body:["Block 1 zeigte: Wissen ist begrenzt. Jetzt die Frage: Welche <b>Haltung</b> folgt daraus?",
+         "Epiktet ist die Quelle deines <b>Satzes 1</b> — kurz (~80 Seiten), praktisch, ohne Theorie-Ballast."], tag:"≈ Satz 1 · Dichotomie der Kontrolle"},
+  {t:"info", kicker:"Der Kerngedanke", emoji:"✋", h:"Die Dichotomie der Kontrolle",
+   body:["Epiktet teilt alles in zwei Körbe:",
+         "<b>In unserer Macht:</b> unsere Urteile, Wünsche, unser Handeln.<br><b>Nicht in unserer Macht:</b> Körper, Besitz, Ruf, Ämter — alles Äußere.",
+         "Seelenruhe entsteht, wenn wir Energie <b>nur auf den ersten Korb</b> richten."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was gehört laut Epiktet <b>nicht</b> in unsere Macht?",
+   opts:["Dein eigenes Urteil","Dein Ruf bei anderen","Dein Wollen","Dein eigenes Handeln"],
+   correct:1, fb:"Der Ruf hängt von den Urteilen anderer ab — außerhalb deiner Kontrolle."},
+  {t:"info", kicker:"Der berühmteste Satz", emoji:"💬", h:"Nicht die Dinge …",
+   body:["„<b>Nicht die Dinge beunruhigen die Menschen, sondern ihre Urteile über die Dinge.</b>“",
+         "Zwischen Ereignis und Leid steht immer deine <b>Bewertung</b> — und die liegt im ersten Korb."]},
+  {t:"mc", kicker:"Mini-Check", q:"Welche Konsequenz folgt aus diesem Satz?",
+   opts:["Ereignisse sind egal","Leid entsteht durch unsere Bewertung — daran können wir arbeiten","Man soll Gefühle unterdrücken","Andere sind schuld an unserem Leid"],
+   correct:1, fb:"Nicht Verdrängung, sondern: die Bewertung ist der Hebel, den du in der Hand hast."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Epiktet — und wo ist die Falle?",
+   reveal:"Er liefert <b>Satz 1 fast wörtlich</b>.<br><br><b>Achtung (offene Stelle a):</b> Du brauchst die stoische <b>Methode</b> (die Dichotomie), nicht die stoische <b>Tugendmetaphysik</b>. Dein System ist hedonistisch (Satz 2) — hier musst du dich von der echten Stoa abgrenzen."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Wo ziehst du gerade selbst die Grenze falsch — kümmerst dich um etwas, das nicht in deiner Macht steht?", hint:"Ein Beispiel aus dieser Woche genügt.",
+   model:"<b>Kein Richtig/Falsch.</b> Prüfe nur: Liegt die Sache in deinem Handeln/Urteil oder hängt sie an anderen/am Zufall? Schon die Zuordnung ist die ganze Übung."},
+ ]},
+{ id:"irvine", track:"kua", block:1, icon:"🧭",
+ title:"Irvine — Eine Anleitung zum guten Leben", author:"William B. Irvine · 2009",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧭", h:"Der moderne Praktiker",
+   body:["Irvine macht die Stoa alltagstauglich — und ist dabei selbst <b>Hedonist</b>, der aus der Stoa nur nimmt, was nützt.",
+         "Damit ist er dein <b>methodisches Vorbild</b>: Wie kommt eine antike Lehre in lebbare Form, ohne ihre Metaphysik?"], tag:"≈ Satz 1 · offene Stelle a"},
+  {t:"info", kicker:"Technik 1", emoji:"🌑", h:"Negative Visualisierung",
+   body:["<b>Premeditatio malorum:</b> Stell dir kurz vor, du würdest verlieren, was du hast — Gesundheit, Menschen, Besitz.",
+         "Ergebnis: <b>Dankbarkeit</b> für das Vorhandene. Es ist das Gegenmittel gegen die Gewöhnung (hedonische Anpassung), die jedes Glück abstumpft."]},
+  {t:"mc", kicker:"Mini-Check", q:"Wozu dient die negative Visualisierung?",
+   opts:["Sich das Leben mies zu reden","Gegen Gewöhnung — sie erzeugt Dankbarkeit für das, was man hat","Pläne für den Ernstfall zu machen","Risiken zu berechnen"],
+   correct:1, fb:"Nicht Pessimismus, sondern ein Wertschätzungs-Werkzeug gegen die Abstumpfung."},
+  {t:"info", kicker:"Technik 2", emoji:"🎾", h:"Die Trichotomie der Kontrolle",
+   body:["Irvines Update zu Epiktet: nicht zwei, sondern <b>drei</b> Kategorien.",
+         "<b>Volle Kontrolle</b> (deine Ziele/Werte) · <b>keine Kontrolle</b> (das Wetter) · <b>teilweise Kontrolle</b> (der Ausgang eines Tennismatchs)."]},
+  {t:"mc", kicker:"Mini-Check", q:"Der Ausgang eines Tennismatchs fällt in welche Kategorie?",
+   opts:["Volle Kontrolle","Keine Kontrolle","Teilweise Kontrolle","Gar keine der drei"],
+   correct:2, fb:"Du beeinflusst dein Spiel — aber nicht den Gegner. Also: teilweise."},
+  {t:"info", kicker:"Der Clou", emoji:"🎯", h:"Internalisierte Ziele",
+   body:["Bei Teilkontrolle verlegst du das Ziel <b>nach innen</b>: Ziel ist nicht „gewinnen“, sondern „mein Bestes geben“.",
+         "So bleibt das Ziel in deiner Macht — und dein Seelenfrieden hängt nicht mehr am Ergebnis."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Irvine?",
+   reveal:"Die <b>Trichotomie</b> schärft deinen Satz 1 (feiner als Epiktets Dichotomie). <b>Internalisierte Ziele</b> stützen Satz 2 (Glück finden). Vor allem aber ist Irvine dein <b>Modell für selektive Stoa-Nutzung</b> (offene Stelle a) — er löst dasselbe Hedonisten-Problem wie du.<br><br>Kritisch bleiben: Seine Praxis weicht stark von der antiken ab — passt das zu deinem Genauigkeitsanspruch?"},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Nimm etwas, das du für selbstverständlich hältst, und wende kurz die negative Visualisierung darauf an.", hint:"Was, wenn es morgen weg wäre?",
+   model:"<b>Übung, kein Test.</b> Schon das kurze Durchspielen verschiebt die Wahrnehmung von „selbstverständlich“ zu „Geschenk“ — genau der Effekt, den Irvine beschreibt."},
+ ]},
+{ id:"sommer", track:"kua", block:1, icon:"🪨",
+ title:"Sommer — Die Kunst der Seelenruhe", author:"Andreas Urs Sommer · 2020",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🪨", h:"Dein akademisches Bollwerk",
+   body:["Andreas Urs Sommer ist <b>Nietzsche-Forscher</b> in Freiburg — er kennt die Primärquellen genau.",
+         "Sein Buch ist deine <b>Absicherung gegen den Vorwurf</b>, du würdest die Antike naiv-modisch übernehmen."], tag:"≈ offene Stelle a · Coaching-Kritik"},
+  {t:"info", kicker:"Die Kernidee", emoji:"🌊", h:"Seelenruhe ist kein Wellness",
+   body:["Für Sommer ist Seelenruhe kein wohliger Dauerzustand, sondern <b>Urteilskraft</b>: Souveränität im Umgang mit dem Unverfügbaren.",
+         "Dazu gehört eine nüchterne <b>Sinnskepsis</b> — keine großen Sinn-Versprechen."]},
+  {t:"info", kicker:"Die Stoßrichtung", emoji:"📢", h:"Kritik am Pop-Stoizismus",
+   body:["Sommer geht gegen den modernen Stoa-Hype (Ryan Holiday & Co.): Er verkürzt die Stoa zu <b>Selbstoptimierungs-Coaching</b> und blendet ihre historische und metaphysische Tiefe aus."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was kritisiert Sommer am modernen Stoa-Hype?",
+   opts:["Er sei zu kompliziert","Er verkürze die Stoa zu Selbstoptimierungs-Coaching","Er sei unwissenschaftlich übersetzt","Er ignoriere Epiktet"],
+   correct:1, fb:"Genau das ist auch Munition für deine eigene Coaching-Kritik."},
+  {t:"mc", kicker:"Mini-Check", q:"Wofür ist Sommer für dein Buch am wertvollsten?",
+   opts:["Als Quelle stoischer Übungen","Für die präzise Einordnung gegenüber der echten Stoa","Als Nietzsche-Biografie","Für Statistik"],
+   correct:1, fb:"Er kann philosophiehistorisch genau zeigen, wo moderne Aneignung die Stoa umkehrt."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Sommer?",
+   reveal:"Er ist dein <b>methodisches Vorbild</b>: akademische Strenge ohne Geschichtsphilosophie. Er sichert dich bei <b>offener Stelle a</b> ab (Methode statt Tugendkosmos) und liefert die Grundlage deiner <b>Coaching-Kritik</b>.<br><br>Offene Frage zum Mitlesen: Wie färbt sein Nietzsche-Hintergrund seine Stoa-Lesart?"},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Formuliere in einem Satz den Unterschied zwischen Sommers Seelenruhe und „Stoizismus als Lifehack“.", hint:"Urteilskraft vs. Optimierungstrick.",
+   model:"<b>Kern:</b> Sommer versteht Seelenruhe als reflektierte Urteilskraft gegenüber dem Unverfügbaren; der Pop-Stoizismus macht daraus eine Technik zur Leistungssteigerung — und verliert dabei die philosophische Substanz."},
+ ]},
+/* ============ KUA · BLOCK 3 (EXISTENZIELL) ============ */
+{ id:"frankl", track:"kua", block:2, icon:"🕯️",
+ title:"Frankl — Der Mensch auf der Suche nach Sinn", author:"Viktor Frankl · 1946",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🕯️", h:"Sinn als Lebenskraft",
+   body:["Viktor Frankl, Psychiater und KZ-Überlebender, begründet die <b>Logotherapie</b>.",
+         "Sein Buch ist halb Lagerbericht, halb Theorie — und ein <b>Gegenspieler zu deinem Satz 2</b>."], tag:"≈ Satz 2 · Korrektiv"},
+  {t:"info", kicker:"Die Kernthese", emoji:"🧭", h:"Der Wille zum Sinn",
+   body:["Der Mensch ist laut Frankl primär getrieben vom <b>Willen zum Sinn</b> — nicht von Lust (Freud), nicht von Macht (Adler).",
+         "Wo der Mensch Sinn findet, wird selbst großes Leiden erträglich."]},
+  {t:"info", kicker:"Das tragende Zitat", emoji:"💬", h:"Ein Warum",
+   body:["Frankl beruft sich auf Nietzsche: „<b>Wer ein Warum zu leben hat, erträgt fast jedes Wie.</b>“",
+         "Im Lager überlebten eher die, die eine Aufgabe oder einen Menschen vor sich hatten."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was treibt den Menschen laut Frankl primär?",
+   opts:["Der Wille zur Lust","Der Wille zur Macht","Der Wille zum Sinn","Der Wille zur Sicherheit"],
+   correct:2, fb:"Genau das unterscheidet ihn von Freud (Lust) und Adler (Macht)."},
+  {t:"info", kicker:"Die letzte Freiheit", emoji:"🔓", h:"Was nie genommen werden kann",
+   body:["Selbst im Lager bleibt eine Freiheit: <b>die Wahl der inneren Haltung</b> gegenüber dem Unvermeidlichen.",
+         "Das ist eine Brücke zu Epiktet — der Hebel liegt in deiner Bewertung, nicht im Ereignis."]},
+  {t:"mc", kicker:"Mini-Check", q:"Worin besteht Frankls „letzte Freiheit“?",
+   opts:["In der Flucht","In der Wahl der inneren Haltung zum Schicksal","Im Vergessen","In der Hoffnung auf Rettung"],
+   correct:1, fb:"Die Haltung gehört in Epiktets ersten Korb — sie bleibt immer dein."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Frankl — und wo reibt er sich?",
+   reveal:"<b>Spannung zu Satz 2!</b> Frankl: <i>Sinn</i> trägt das Leben. Dein System: <i>Glück</i> (hedonistisch). Frankl ist damit dein wichtigstes <b>Korrektiv</b> — du musst klären, ob dein „Glück“ Sinn einschließt oder ob du ihn ausschließt.<br><br>Die „letzte Freiheit“ stützt zugleich deinen Satz 1."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Schließt dein Begriff von „Glück“ (Satz 2) den Sinn ein — oder ist Sinn etwas anderes?", hint:"Hier entscheidet sich, ob Frankl Verbündeter oder Gegner ist.",
+   model:"<b>Denkanstoß:</b> Wenn „Glück“ bei dir bloß angenehmes Erleben meint, ist Frankl ein Einwand. Wenn es ein gelingendes, als sinnvoll erlebtes Leben meint, wird Frankl zum Verbündeten. Diese Begriffsklärung gehört in Teil I."},
+ ]},
+/* ============ KUA · BLOCK 4 (POLITISCH) ============ */
+{ id:"mill", track:"kua", block:3, icon:"🗽",
+ title:"Mill — Über die Freiheit", author:"John Stuart Mill · 1859",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🗽", h:"Der klassische Freiheitstext",
+   body:["Mills <i>On Liberty</i> ist <b>die</b> liberale Grundschrift — und die direkte Quelle deines <b>Satzes 4</b>."], tag:"≈ Satz 4 · Schadensprinzip"},
+  {t:"info", kicker:"Das Herzstück", emoji:"🚧", h:"Das Schadensprinzip",
+   body:["„Der einzige Zweck, zu dem Macht über ein Mitglied einer Gemeinschaft gegen dessen Willen ausgeübt werden darf, ist die <b>Verhütung der Schädigung anderer</b>.“",
+         "Das eigene Wohl ist <b>kein</b> hinreichender Grund für Zwang."]},
+  {t:"mc", kicker:"Mini-Check", q:"Wann darf die Gesellschaft laut Mill in die Freiheit eingreifen?",
+   opts:["Wenn es dem Betroffenen selbst schadet","Nur um Schaden an anderen zu verhindern","Wenn die Mehrheit es will","Wenn es unmoralisch ist"],
+   correct:1, fb:"Nur fremder Schaden zählt — nicht das eigene Wohl, nicht die Moral der Mehrheit."},
+  {t:"info", kicker:"Warum frei reden?", emoji:"💭", h:"Meinungsfreiheit",
+   body:["Selbst eine falsche Meinung zu unterdrücken schadet: Im Streit schärft sich die Wahrheit.",
+         "Ohne Widerspruch wird auch die richtige Überzeugung zum <b>toten Dogma</b>, das man nicht mehr wirklich versteht."]},
+  {t:"info", kicker:"Die eigentliche Gefahr", emoji:"👥", h:"Tyrannei der Mehrheit",
+   body:["Mill warnt weniger vor dem Staat als vor dem <b>sozialen Konformitätsdruck</b>: Die Gesellschaft erstickt Abweichung durch Sitte und Meinung.",
+         "Dagegen setzt er die <b>„Experimente des Lebens“</b> — die Vielfalt der Lebensentwürfe ist selbst ein Wert."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint Mills „Tyrannei der Mehrheit“?",
+   opts:["Wahlbetrug","Sozialer Konformitätsdruck, nicht nur staatlicher Zwang","Die Herrschaft der Reichen","Diktatur"],
+   correct:1, fb:"Die subtilere Unfreiheit: Sitte und öffentliche Meinung als Zwang."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Mill?",
+   reveal:"Mill liefert deinen <b>Satz 4</b> direkt: Die einzige Grenze des eigenen Glücks ist der Einfluss/Schaden auf andere. Seine <b>„Experimente des Lebens“</b> stützen zusätzlich Satz 3 (nicht über fremde Lebensentwürfe urteilen).<br><br>Sandel ist die kommunitaristische Gegenposition dazu."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Wo verläuft bei dir die Linie zwischen „schadet nur mir selbst“ und „schadet anderen“ — und warum ist die Linie heikel?", hint:"Genau hier wird Satz 4 angegriffen.",
+   model:"<b>Knackpunkt:</b> Fast jede Handlung hat indirekte Folgen für andere. Mill braucht einen engen Schadensbegriff (direkte, konkrete Schädigung), sonst frisst die Ausnahme die Regel. Dein Satz 4 muss diese Grenze sauber definieren."},
+ ]},
+{ id:"sandel", track:"kua", block:3, icon:"⚖️",
+ title:"Sandel — Vom Ende des Gemeinwohls", author:"Michael J. Sandel · 2020",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"⚖️", h:"Anmaßung auf Gesellschaftsebene",
+   body:["Sandel (<i>The Tyranny of Merit</i>) ist Kommunitarist — der <b>Gegenpol zu Mill</b>.",
+         "Sein Thema überträgt deinen Anmaßungs-Begriff auf <b>Gesellschaftsstrukturen</b>."], tag:"≈ Mandatstreuhand · Vereinsamung"},
+  {t:"info", kicker:"Die Kernthese", emoji:"🏆", h:"Die Tyrannei des Verdiensts",
+   body:["Die <b>Meritokratie</b> („jeder verdient, was er erreicht“) zerreißt die Gesellschaft:",
+         "Sie erzeugt <b>Hochmut bei den Gewinnern</b> und <b>Demütigung bei den Verlierern</b>."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was kritisiert Sandel?",
+   opts:["Die Demokratie an sich","Die Meritokratie — den Glauben, Erfolg sei rein selbstverdient","Den Sozialstaat","Die Globalisierung"],
+   correct:1, fb:"Nicht Leistung an sich, sondern den Mythos des allein selbstverdienten Erfolgs."},
+  {t:"info", kicker:"Der Kern für dich", emoji:"🎩", h:"Die Hybris des Verdiensts",
+   body:["Wer oben ist, vergisst Glück, Herkunft und Zufall — und <b>maßt sich an</b>, den Erfolg ganz sich selbst zuzuschreiben.",
+         "Das ist dein <b>Anmaßungs-Begriff</b> in Reinform, angewandt auf Status."]},
+  {t:"mc", kicker:"Mini-Check", q:"Wie hängt Meritokratie mit „Anmaßung“ zusammen?",
+   opts:["Gar nicht","Gewinner maßen sich an, ihr Erfolg sei allein eigenes Verdienst","Verlierer maßen sich zu viel an","Meritokratie verhindert Anmaßung"],
+   correct:1, fb:"Sie ignorieren Zufall und Glück — eine Anmaßung von Wissen über die eigene Verdienst-Bilanz."},
+  {t:"info", kicker:"Die Folge", emoji:"💔", h:"Entwertung & Vereinsamung",
+   body:["Die Kehrseite: Arbeit „ohne Diplom“ wird entwertet, es wächst Populismus, das <b>Gemeinwohl</b> erodiert — und mit ihm der soziale Zusammenhalt."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Sandel?",
+   reveal:"Er liefert die <b>zeitgenössische Anwendung deines Anmaßungs-Begriffs</b> auf Strukturen: Mandatstreuhand (wer hat sich was verdient?), Reputation als Theorem, und die meritokratische Entwertung als Quelle der <b>Vereinsamung</b> (Teil VI).<br><br>Zugleich kommunitaristische Gegenposition zu Mills Liberalismus."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Wo in deinem eigenen Leben unterschätzt du den Anteil von Glück/Zufall an deinem Erfolg?", hint:"Sandels Test gegen die Verdienst-Hybris.",
+   model:"<b>Übung:</b> Geburtsort, Elternhaus, Begabungen, richtige Zeit — alles unverdient. Sandels Punkt ist nicht, Leistung kleinzureden, sondern Demut und Solidarität wiederherzustellen. Genau dein Brückenschlag von Anmaßung zu Gemeinschaft (Satz 6)."},
+ ]},
+{ id:"taleb-sitg", track:"kua", block:3, icon:"🎲",
+ title:"Taleb — Skin in the Game", author:"Nassim Nicholas Taleb · 2018",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🎲", h:"Epistemik wird Ethik",
+   body:["Taleb kehrt zurück — diesmal nicht erkenntnistheoretisch, sondern <b>ethisch-politisch</b>.",
+         "Das Prinzip verbindet sich direkt mit deinem <b>Satz 5</b> und der Mandatstreuhand."], tag:"≈ Satz 5 · Mandatstreuhand"},
+  {t:"info", kicker:"Das Kernprinzip", emoji:"🤝", h:"Haut im Spiel",
+   body:["<b>Symmetrie von Risiko:</b> Wer eine Entscheidung trifft, muss ihre Folgen <b>mittragen</b>.",
+         "Kein Gewinn ohne das Risiko, auch zu verlieren. Wer nichts riskiert, soll nicht über andere bestimmen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was fordert „Skin in the Game“?",
+   opts:["Mehr Experten","Dass Entscheider das Risiko ihrer Entscheidungen selbst tragen","Mehr Regulierung","Weniger Risiko generell"],
+   correct:1, fb:"Verantwortung und Folgenlast müssen bei derselben Person liegen."},
+  {t:"info", kicker:"Das Problem", emoji:"📋", h:"Die Asymmetrie",
+   body:["Berater, Bürokraten, Banker profitieren oft bei Erfolg, <b>haften aber nicht</b> bei Misserfolg.",
+         "Reden ohne Risiko ist eine Quelle von Schaden — und von Anmaßung: Man urteilt über Lagen, deren Folgen einen nie treffen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Warum ist ein folgenloser Ratgeber gefährlich?",
+   opts:["Er ist zu teuer","Er trägt kein Risiko — also keine Korrektur durch die Realität","Er ist zu vorsichtig","Er redet zu wenig"],
+   correct:1, fb:"Ohne Rückkopplung durch eigene Verluste fehlt der Realitätstest."},
+  {t:"info", kicker:"Bonus", emoji:"⏳", h:"Der Lindy-Effekt",
+   body:["Was lange überlebt hat (Bücher, Ideen, Institutionen), wird wahrscheinlich noch lange bestehen.",
+         "Die Zeit ist ein Filter — ein Mittel gegen die Anmaßung des Neuen."]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Skin in the Game?",
+   reveal:"Es ist die <b>ethische Brücke zu Satz 5</b> (Minimierungsgebot / Reziprozität): Reziprozität ist im Kern <b>Risiko-Symmetrie</b>. Und es trägt deine <b>Mandatstreuhand</b>: Wer für andere entscheidet — besonders in der Politik — muss mithaften."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Wo triffst du Entscheidungen für andere, ohne ihre Folgen selbst zu tragen — und wie ließe sich Symmetrie herstellen?", hint:"Skin in the Game als Reziprozitäts-Test.",
+   model:"<b>Anwendung:</b> Überall, wo du rätst, anweist oder repräsentierst. Symmetrie heißt: an den Folgen teilhaben (Verantwortung, Haftung, gleiche Betroffenheit). Genau das macht deinen Satz 5 überprüfbar statt bloß appellativ."},
+ ]},
+/* ============ KUA · BLOCK 5 (ERGÄNZEND) ============ */
+{ id:"geyer", track:"kua", block:4, icon:"🍇",
+ title:"Geyer — Epikur", author:"Carl-Friedrich Geyer · 2000",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🍇", h:"Das hedonistische Gegenmodell",
+   body:["Geyers Einführung erschließt Epikur — die <b>Lustlehre</b> als Gegenpol zur Stoa.",
+         "Sie ist näher an deinem System, als es scheint: Du nutzt Tugend nur als Werkzeug zum hedonistischen Ziel."], tag:"≈ Satz 2 · offene Stelle a"},
+  {t:"info", kicker:"Was Lust wirklich heißt", emoji:"🕊️", h:"Aponia & Ataraxia",
+   body:["Epikurs Ziel ist <b>Lust</b> (hedone) — aber als <b>Abwesenheit von Schmerz</b> (aponia) und <b>Seelenruhe</b> (ataraxia).",
+         "Nicht Exzess, sondern Freiheit von Störung. Ein Missverständnis, das bis heute hält."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was ist „Lust“ bei Epikur?",
+   opts:["Maximaler Genuss","Abwesenheit von Schmerz und Störung","Reichtum","Ruhm"],
+   correct:1, fb:"Stille statt Rausch — die ataraxia ist das eigentliche Ziel."},
+  {t:"info", kicker:"Die Begierden-Lehre", emoji:"🧮", h:"Welche Wünsche zählen",
+   body:["Epikur sortiert Begierden: <b>natürlich + notwendig</b> (Essen), <b>natürlich, nicht notwendig</b> (Luxus), <b>weder noch</b> (Ruhm, Macht).",
+         "Glücklich wird, wer nur die <b>ersten</b> stillt — der Rest macht abhängig."]},
+  {t:"mc", kicker:"Mini-Check", q:"Wozu dient Epikurs Einteilung der Begierden?",
+   opts:["Zur Steuererklärung der Lust","Zu erkennen, welche Wünsche man fürs Glück wirklich stillen muss","Zur Askese","Zum Verzicht auf alles"],
+   correct:1, fb:"Es ist eine Landkarte: Wenige notwendige Wünsche sind leicht zu stillen — das macht frei."},
+  {t:"info", kicker:"Die Merkformel", emoji:"💊", h:"Das Tetrapharmakon",
+   body:["Epikurs „Vier-Kräuter-Mittel“ gegen die Angst: <b>Die Götter nicht fürchten. Den Tod nicht fürchten. Das Gute ist leicht zu erlangen. Das Schlimme leicht zu ertragen.</b>“"]},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Geyer/Epikur?",
+   reveal:"Er klärt deine <b>Schlüsselfrage (offene Stelle a)</b>: Ist dein System eigentlich <b>epikureisch</b> (Glück als Ziel, Satz 2) und nur <i>methodisch</i> stoisch (Satz 1)? Die Stoa liefert das Werkzeug, Epikur das Ziel.<br><br>Bonus: Epikurs <i>Brief an Menoikeus</i> als Stilreferenz für deine axiomatische Knappheit."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Ordne deine drei größten aktuellen Wünsche in Epikurs Schema ein. Wie viele sind „notwendig“?", hint:"natürlich+notwendig / natürlich / weder-noch.",
+   model:"<b>Übung:</b> Meist landet erstaunlich wenig bei „notwendig“. Genau das ist Epikurs Pointe — und ein Prüfstein für deinen Glücksbegriff in Satz 2: Glück hängt weniger an Erfüllung als an der richtigen Auswahl der Wünsche."},
+ ]},
+{ id:"lewis", track:"kua", block:4, icon:"✝️",
+ title:"Lewis — Pardon, ich bin Christ", author:"C. S. Lewis · 1952",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"✝️", h:"Nüchterne Apologetik",
+   body:["C. S. Lewis (<i>Mere Christianity</i>) verteidigt das Christentum <b>argumentativ</b>, nicht erbaulich.",
+         "Für dich vor allem als <b>Stil- und Argumentationsmodell</b> für deine theologische Grundierung relevant."], tag:"≈ Teil VIII · theol. Grundierung"},
+  {t:"info", kicker:"Der Einstieg", emoji:"⚖️", h:"Das moralische Argument",
+   body:["Überall berufen sich Menschen auf ein <b>Sittengesetz</b>, das sie nicht selbst gemacht haben und doch als verbindlich empfinden.",
+         "Lewis sieht darin einen Hinweis auf eine <b>moralische Quelle jenseits</b> des Menschen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Worauf baut Lewis sein Hauptargument?",
+   opts:["Auf Wunder","Auf das universale moralische Empfinden (Sittengesetz)","Auf die Bibel als Beweis","Auf Kirchengeschichte"],
+   correct:1, fb:"Vom geteilten Gewissen aus argumentiert er nach „oben“."},
+  {t:"info", kicker:"Das bekannte Trilemma", emoji:"🔱", h:"Liar, Lunatic or Lord",
+   body:["Jesu Selbstanspruch (Gott zu sein) lässt für Lewis nur <b>drei</b> Deutungen zu: Lügner, Wahnsinniger — oder tatsächlich Gott.",
+         "Die bequeme vierte Option („nur ein guter Lehrer“) schließt er aus."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint Lewis mit „mere“ Christianity?",
+   opts:["Eine bestimmte Konfession","Den konfessionsübergreifenden, sachlich begründeten Kern","Eine vereinfachte Kinderfassung","Die katholische Lehre"],
+   correct:1, fb:"Das gemeinsame Grundchristentum unterhalb der Konfessionen."},
+  {t:"flip", kicker:"Verbindung zum Buch", front:"Wofür brauchst du Lewis?",
+   reveal:"Vor allem als <b>Stil- und Methodenvorbild</b> für deine theologische Grundierung (Teil VIII): Theologie nüchtern und argumentativ statt fromm-erbaulich.<br><br>Laut deiner eigenen Struktur ist die Theologie privat / nicht systemtragend — Lewis bleibt damit ergänzend, nicht tragend."},
+  {t:"recall", kicker:"Selbst erinnern", prompt:"Überzeugt dich Lewis' moralisches Argument — und wo würde ein Skeptiker (z.B. Hume) einhaken?", hint:"Folgt aus dem Sein des Gewissens ein Sollen-Geber?",
+   model:"<b>Denkanstoß:</b> Humes Gesetz (kein Sollen aus Sein) und eine evolutionäre Erklärung des Gewissens sind die stärksten Gegeneinwände. Für dein Buch zählt weniger, ob Lewis recht hat, als sein <i>Verfahren</i>: vom Geteilten ausgehen, klar argumentieren."},
+ ]},
+
+/* ============ ALLGEMEIN · GRUNDLAGEN ============ */
+{ id:"a-felder", track:"allg", block:0, icon:"🗺️",
+ title:"Die Teilgebiete der Philosophie", author:"Orientierung · die Landkarte",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🗺️", h:"Erst die Landkarte",
+   body:["Bevor wir zu den Denkern gehen: Philosophie zerfällt in einige große <b>Fragen-Felder</b>. Wer sie kennt, ordnet jede Debatte sofort ein."]},
+  {t:"info", kicker:"Die großen Felder", emoji:"🧭", h:"Fünf plus eins",
+   body:["<b>Metaphysik</b> — Was gibt es? Was ist Wirklichkeit?<br><b>Erkenntnistheorie</b> — Was und wie können wir wissen?<br><b>Ethik</b> — Wie soll ich handeln?<br><b>Logik</b> — Was folgt gültig woraus?<br><b>Ästhetik</b> — Was ist Schönheit und Kunst?",
+         "Dazu die <b>politische Philosophie</b>: Wie sollen wir zusammenleben?"]},
+  {t:"mc", kicker:"Mini-Check", q:"„Können wir die Außenwelt sicher erkennen?“ gehört zu …",
+   opts:["Ethik","Erkenntnistheorie","Ästhetik","Logik"],
+   correct:1, fb:"Eine Frage nach Möglichkeit und Grenzen des Wissens."},
+  {t:"mc", kicker:"Mini-Check", q:"„Was macht eine Handlung gut?“ gehört zu …",
+   opts:["Metaphysik","Logik","Ethik","Erkenntnistheorie"],
+   correct:2, fb:"Die Kernfrage der Ethik."},
+  {t:"info", kicker:"Warum das nützt", emoji:"🔗", h:"Alles hat seinen Ort",
+   body:["Fast jede philosophische Debatte lässt sich einem dieser Felder zuordnen — und oft liegt der Streit darin, dass zwei Leute eigentlich über <i>verschiedene</i> Felder reden."]},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Wo liegt <i>Kenntnis und Anmaßung</i> auf der Landkarte?",
+   reveal:"An der <b>Naht von Erkenntnistheorie und Ethik</b>: Dein Kerngedanke macht die <i>Wissensbedingungen des Urteilens</i> zur ethischen Grundoperation. Genau das nennst du „epistemische Ethik“ — keine Tugend-, Pflicht- oder Folgenethik."},
+ ]},
+/* ============ ALLGEMEIN · ANTIKE ============ */
+{ id:"a-sokrates", track:"allg", block:1, icon:"🏺",
+ title:"Sokrates & Platon", author:"Athen · 5./4. Jh. v. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🏺", h:"Der Anfang",
+   body:["In Athen beginnt die westliche Philosophie als <b>systematisches Fragen</b> — mit Sokrates und seinem Schüler Platon."]},
+  {t:"info", kicker:"Sokrates", emoji:"❓", h:"Wissen, dass man nichts weiß",
+   body:["Sokrates schrieb nichts; er <b>fragte</b>. Die sokratische Methode (Mäeutik, „Hebammenkunst“) bringt durch gezieltes Nachfragen die Widersprüche im Gegenüber ans Licht.",
+         "Seine Weisheit: „Ich weiß, dass ich nichts weiß.“ Erkenntnis beginnt mit dem Eingeständnis der Unwissenheit."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was ist die sokratische Methode?",
+   opts:["Lange Vorträge halten","Durch gezieltes Fragen Widersprüche aufdecken","Texte auswendig lernen","Mit Autorität überzeugen"],
+   correct:1, fb:"Fragen statt behaupten — der Gesprächspartner erkennt selbst."},
+  {t:"info", kicker:"Platon", emoji:"💡", h:"Die Ideenlehre",
+   body:["Platon: Hinter den vergänglichen Dingen stehen unveränderliche <b>Ideen</b> (das Schöne, das Gute selbst). Die sichtbare Welt ist nur ihr Abbild."]},
+  {t:"info", kicker:"Das berühmteste Bild", emoji:"🕳️", h:"Das Höhlengleichnis",
+   body:["Gefesselte sehen an der Höhlenwand nur <b>Schatten</b> und halten sie für die Wirklichkeit. Philosophie ist der mühsame Weg aus der Höhle ans Licht — und die Schatten als Schatten zu erkennen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was zeigt das Höhlengleichnis?",
+   opts:["Dass Licht gefährlich ist","Dass wir Schein leicht für Wirklichkeit halten","Dass Bildung sinnlos ist","Dass alle gleich sind"],
+   correct:1, fb:"Wir verwechseln Abbilder/Meinungen mit der Sache selbst."},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Was hat Sokrates mit deinem Thema zu tun?",
+   reveal:"Sein „Ich weiß, dass ich nichts weiß“ ist der <b>Urahn deines Anmaßungs-Themas</b>: Der Weise erkennt die Grenzen seines Wissens — der Anmaßende überschätzt sie."},
+ ]},
+{ id:"a-aristoteles", track:"allg", block:1, icon:"📐",
+ title:"Aristoteles", author:"384–322 v. Chr.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"📐", h:"Der Empiriker",
+   body:["Platons Schüler — aber er traut der <b>Beobachtung</b> mehr als der reinen Ideenwelt. Begründer der Logik und vieler Einzelwissenschaften."]},
+  {t:"info", kicker:"Das Lebensziel", emoji:"🌱", h:"Eudaimonia & Tugend",
+   body:["Ziel des Lebens ist <b>Eudaimonia</b> — ein gelingendes, erfülltes Leben (nicht bloß Spaß).",
+         "Erreicht wird es durch <b>Tugend</b>: exzellente Charakterhaltungen, eingeübt zur Gewohnheit."]},
+  {t:"info", kicker:"Die Faustregel", emoji:"⚖️", h:"Die goldene Mitte",
+   body:["Tugend liegt als <b>Mitte</b> zwischen zwei Lastern: Mut zwischen Feigheit und Tollkühnheit, Großzügigkeit zwischen Geiz und Verschwendung."]},
+  {t:"mc", kicker:"Mini-Check", q:"Tapferkeit liegt laut Aristoteles zwischen …",
+   opts:["Mut und Stärke","Feigheit und Tollkühnheit","Angst und Ruhe","Klugheit und Dummheit"],
+   correct:1, fb:"Die Tugend ist das rechte Maß zwischen Zuwenig und Zuviel."},
+  {t:"mc", kicker:"Mini-Check", q:"Was bedeutet Eudaimonia?",
+   opts:["Kurzfristiger Genuss","Ein gelingendes, erfülltes Leben","Reichtum","Seelenruhe durch Verzicht"],
+   correct:1, fb:"Ein Leben, das als Ganzes gut geführt ist."},
+  {t:"info", kicker:"Mensch & Gemeinschaft", emoji:"🏘️", h:"Das zoon politikon",
+   body:["Alles strebt nach seinem <b>Telos</b> (Ziel). Das Telos des Menschen liegt in der Vernunfttätigkeit — und der Mensch ist ein <b>zoon politikon</b>, ein Gemeinschaftswesen, das sich nur in Gesellschaft verwirklicht."]},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Anknüpfungspunkt für dein Buch?",
+   reveal:"Das <b>zoon politikon</b> und die Tugend-als-Übung treffen direkt deinen <b>Satz 6</b> (Gemeinschaftsbedarf) und deine „Innere Ordnung“. Anders als du gründet Aristoteles aber auf Tugend, nicht auf Glück/Epistemik — ein lohnender Kontrast."},
+ ]},
+/* ============ ALLGEMEIN · NEUZEIT ============ */
+{ id:"a-descartes", track:"allg", block:2, icon:"🧠",
+ title:"Descartes & der Rationalismus", author:"René Descartes · 17. Jh.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🧠", h:"Neustart beim Ich",
+   body:["Mit Descartes beginnt die <b>neuzeitliche</b> Philosophie: Das sichere Fundament wird nicht mehr in der Tradition gesucht, sondern im <b>denkenden Subjekt</b>."]},
+  {t:"info", kicker:"Schritt 1", emoji:"🌀", h:"Der methodische Zweifel",
+   body:["Descartes bezweifelt radikal <b>alles</b>, was sich bezweifeln lässt: Die Sinne täuschen, vielleicht täuscht mich sogar ein „böser Dämon“.",
+         "Die Frage: Was bleibt dann überhaupt sicher?"]},
+  {t:"info", kicker:"Der Felsen", emoji:"🪨", h:"Cogito ergo sum",
+   body:["„<b>Ich denke, also bin ich.</b>“ Selbst wenn ich in allem getäuscht werde — dass ich gerade zweifle, beweist, dass ich <b>existiere</b>.",
+         "Das ist der archimedische Punkt, auf dem alles Weitere aufbauen soll."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was überlebt Descartes' radikalen Zweifel?",
+   opts:["Die Außenwelt","Die Gewissheit des denkenden Ich","Die Sinneswahrnehmung","Die Mathematik allein"],
+   correct:1, fb:"Das zweifelnde Denken kann sich nicht selbst wegzweifeln."},
+  {t:"info", kicker:"Die Folge", emoji:"👤", h:"Leib-Seele-Dualismus",
+   body:["Descartes trennt zwei Substanzen: den <b>Geist</b> (denkend) und den <b>Körper</b> (ausgedehnt). Wie beide zusammenwirken, bleibt das bis heute offene <b>Mind-Body-Problem</b>."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was ist der cartesianische Dualismus?",
+   opts:["Gut gegen Böse","Die Trennung von Geist und Körper in zwei Substanzen","Vernunft gegen Gefühl","Glaube gegen Wissen"],
+   correct:1, fb:"Zwei grundverschiedene Arten von Sein."},
+  {t:"flip", kicker:"Bonus · Einordnung", front:"Wo steht Descartes im großen Streit?",
+   reveal:"Er ist der <b>Rationalist</b>: sichere Erkenntnis durch <b>Vernunft</b>. Das ist der Gegenpol zu Hume (und damit zu Taleb), die der Erfahrung misstrauen und die Grenzen des Wissens betonen."},
+ ]},
+{ id:"a-hume", track:"allg", block:2, icon:"🔍",
+ title:"Hume & der Empirismus", author:"David Hume · 18. Jh.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🔍", h:"Der große Skeptiker",
+   body:["David Hume, schottische Aufklärung — und der direkte <b>philosophische Ahn von Taleb</b>."]},
+  {t:"info", kicker:"Die Grundthese", emoji:"👁️", h:"Empirismus",
+   body:["Alles Wissen stammt aus <b>Erfahrung</b> (Sinneseindrücken), nicht aus reiner Vernunft. Es gibt keine „angeborenen Ideen“.",
+         "Begriffe ohne Erfahrungsgrundlage sind verdächtig."]},
+  {t:"info", kicker:"Der berühmte Schlag", emoji:"🌅", h:"Das Induktionsproblem",
+   body:["Dass die Sonne bisher immer aufging, <b>beweist nicht</b>, dass sie morgen aufgeht. Aus der Vergangenheit folgt logisch nichts über die Zukunft — wir schließen nur aus <b>Gewohnheit</b>.",
+         "Genau das ist später Talebs Truthahn."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was besagt Humes Induktionsproblem?",
+   opts:["Die Zukunft ist immer anders","Vergangene Regelmäßigkeit garantiert die Zukunft nicht","Erfahrung ist wertlos","Naturgesetze gibt es nicht"],
+   correct:1, fb:"Wir gewöhnen uns an Muster — beweisen können wir ihre Fortdauer nicht."},
+  {t:"info", kicker:"Die zweite Bombe", emoji:"↔️", h:"Sein und Sollen",
+   body:["<b>Humes Gesetz:</b> Aus reinen Tatsachen („ist“) lässt sich kein „soll“ ableiten. Werturteile folgen nicht logisch aus Fakten.",
+         "Ein Dauerproblem für jede Ethik, die sich auf Natur oder Empirie beruft."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was sagt das „Humesche Gesetz“?",
+   opts:["Aus dem Sein folgt kein Sollen","Alles ist erlaubt","Fakten sind moralisch","Gefühle sind Wissen"],
+   correct:0, fb:"Die berühmte Sein-Sollen-Lücke."},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Warum ist Hume für dich Pflicht?",
+   reveal:"Er ist die <b>Tiefenschicht von Block 1</b>: Taleb ist im Grunde angewandter Hume. Und Humes Sein-Sollen-Gesetz ist der schärfste Einwand gegen jede Ethik, die aus Fakten Normen ableiten will — relevant für deine epistemische Ethik und deine methodische Begründung."},
+ ]},
+/* ============ ALLGEMEIN · MODERNE ============ */
+{ id:"a-kant", track:"allg", block:3, icon:"⛪",
+ title:"Kant", author:"Immanuel Kant · 18. Jh.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"⛪", h:"Die große Synthese",
+   body:["Kant versucht, <b>Rationalismus</b> (Descartes) und <b>Empirismus</b> (Hume) zu versöhnen — und schreibt damit die einflussreichste Erkenntnistheorie der Neuzeit."]},
+  {t:"info", kicker:"Erkenntnis", emoji:"🔄", h:"Die kopernikanische Wende",
+   body:["Nicht der Geist richtet sich nach den Dingen, sondern die Dinge erscheinen uns durch die <b>Strukturen unseres Geistes</b> (Raum, Zeit, Kausalität).",
+         "Wir erkennen die Welt immer <i>gefiltert</i> — das <b>„Ding an sich“</b> bleibt uns unzugänglich."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint Kants „Ding an sich“?",
+   opts:["Ein physikalisches Teilchen","Die Realität unabhängig von unserer Wahrnehmung — uns unzugänglich","Gott","Die Idee im platonischen Sinn"],
+   correct:1, fb:"Wir sehen nur die Erscheinung, nie die Sache, wie sie an sich ist."},
+  {t:"info", kicker:"Ethik", emoji:"📜", h:"Der kategorische Imperativ",
+   body:["„<b>Handle nur nach derjenigen Maxime, von der du wollen kannst, dass sie ein allgemeines Gesetz werde.</b>“",
+         "Moral nicht aus Folgen oder Gefühl, sondern aus <b>reiner Vernunft</b> — und universalisierbar."]},
+  {t:"info", kicker:"Die Würde-Formel", emoji:"🙋", h:"Mensch als Zweck",
+   body:["Zweite Formel: Behandle die Menschheit „<b>niemals bloß als Mittel, sondern jederzeit zugleich als Zweck</b>“. Daraus folgt die unbedingte Würde jeder Person."]},
+  {t:"mc", kicker:"Mini-Check", q:"Der kategorische Imperativ prüft eine Handlung durch …",
+   opts:["ihre Folgen","ihre Verallgemeinerbarkeit","das Gefühl dabei","den Nutzen für mich"],
+   correct:1, fb:"Kann die Maxime ohne Widerspruch allgemeines Gesetz sein?"},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Berührungspunkt mit deinem System?",
+   reveal:"Kants <b>Universalisierung</b> ist der strenge Verwandte deiner Goldenen Regel / Reziprozität (Satz 5) — nur als Vernunfttest statt als Notbehelf. Und das <b>„Ding an sich“</b> verschärft deinen Anmaßungs-Gedanken: Schon die Außenwelt erkennen wir nur gefiltert."},
+ ]},
+{ id:"a-nietzsche", track:"allg", block:3, icon:"🔨",
+ title:"Nietzsche", author:"Friedrich Nietzsche · 19. Jh.",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🔨", h:"Philosophieren mit dem Hammer",
+   body:["Nietzsche stellt die Werte selbst infrage — und ist der Hintergrund deines Quellenautors <b>Sommer</b>."]},
+  {t:"info", kicker:"Die Diagnose", emoji:"🌑", h:"„Gott ist tot“",
+   body:["Kein Triumph, sondern eine <b>Diagnose</b>: Mit dem Wegfall des christlichen Wertefundaments droht der <b>Nihilismus</b> — die Werte hängen plötzlich in der Luft.",
+         "Die Aufgabe: ihn überwinden, nicht ihn feiern."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint Nietzsche mit „Gott ist tot“?",
+   opts:["Eine atheistische Kampfansage","Den Verlust des verbindlichen Wertefundaments (Gefahr Nihilismus)","Dass Religion verboten gehört","Dass Gott nie existierte"],
+   correct:1, fb:"Eine kulturelle Diagnose, kein Jubel — mit einem ernsten Folgeproblem."},
+  {t:"info", kicker:"Die Genealogie", emoji:"🐑", h:"Herren- und Sklavenmoral",
+   body:["Werte haben eine <b>Geschichte</b>. Die ursprüngliche „gut/schlecht“-Wertung der Starken wurde durch die „gut/böse“-Moral aus dem <b>Ressentiment</b> der Schwachen verdrängt.",
+         "Nietzsche fordert eine <b>Umwertung aller Werte</b>."]},
+  {t:"info", kicker:"Die Antwort", emoji:"⛰️", h:"Wille zur Macht & Übermensch",
+   body:["Leben strebt nach <b>Selbststeigerung</b> (Wille zur Macht). Der „Übermensch“ ist, wer <b>eigene Werte schafft</b>, statt fremde zu übernehmen."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was fordert Nietzsche angesichts des Nihilismus?",
+   opts:["Zurück zur Religion","Eigene Werte schaffen / Umwertung der Werte","Resignation","Reine Wissenschaft"],
+   correct:1, fb:"Nicht neue Tafeln von außen, sondern selbst gesetzte Werte."},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Warum ist Nietzsche für dich unausweichlich?",
+   reveal:"Er stellt jeder Ethik die härteste Frage: <b>Woher nimmst du deine Werte?</b> Für dein <b>axiomatisches</b> Vorgehen ist das eine Pflicht-Auseinandersetzung — und über Sommer ohnehin schon im Quellenapparat angelegt."},
+ ]},
+{ id:"a-existenz", track:"allg", block:3, icon:"🚪",
+ title:"Der Existenzialismus", author:"Kierkegaard · Sartre · Camus",
+ cards:[
+  {t:"info", kicker:"Worum es geht", emoji:"🚪", h:"Die konkrete Existenz",
+   body:["Vom 19. ins 20. Jahrhundert: Philosophie nicht als abstraktes System, sondern ausgehend von der <b>einzelnen, geworfenen Existenz</b> — von Kierkegaard bis Sartre und Camus."]},
+  {t:"info", kicker:"Sartre", emoji:"🆓", h:"Existenz vor Essenz",
+   body:["Der Mensch hat <b>kein vorgegebenes Wesen</b>. Er existiert zuerst — und definiert sich erst durch seine Entscheidungen.",
+         "Folge: Wir sind „<b>zur Freiheit verurteilt</b>“."]},
+  {t:"mc", kicker:"Mini-Check", q:"Was meint „Existenz vor Essenz“?",
+   opts:["Der Körper kommt vor der Seele","Der Mensch hat kein festes Wesen, sondern macht sich durch Entscheidungen","Leben ist sinnlos","Gefühle vor Vernunft"],
+   correct:1, fb:"Erst da, dann durch Wahl bestimmt — kein vorgefertigter Bauplan."},
+  {t:"info", kicker:"Der Preis", emoji:"😰", h:"Angst & Verantwortung",
+   body:["Radikale Freiheit erzeugt <b>Angst</b>. Und sie lässt keine Ausreden: Wer Verantwortung auf „Rolle“ oder „Umstände“ abschiebt, lebt in <b>Selbstbetrug</b> (mauvaise foi).",
+         "Du verantwortest, wer du wirst."]},
+  {t:"info", kicker:"Camus", emoji:"🪨", h:"Das Absurde",
+   body:["Der Mensch sucht Sinn — die Welt schweigt. Diese Spannung ist das <b>Absurde</b>.",
+         "Camus' Antwort ist weder Selbstmord noch Glaubensflucht, sondern <b>Auflehnung</b>: „Wir müssen uns Sisyphos als glücklichen Menschen vorstellen.“"]},
+  {t:"mc", kicker:"Mini-Check", q:"Camus' Antwort auf das Absurde ist …",
+   opts:["Flucht in den Glauben","Es auszuhalten und aufzubegehren","Resignation","Wissenschaft"],
+   correct:1, fb:"Das Absurde anerkennen und trotzdem leben — nicht ausweichen."},
+  {t:"flip", kicker:"Bonus · dein Projekt", front:"Wie verhält sich das zu deinem Glücks-Ziel?",
+   reveal:"Der Existenzialismus ist <b>Frankls Nachbar</b> und ein Gegenpol zu deinem hedonistischen Satz 2: Hier zählen <b>Freiheit und selbst gestifteter Sinn</b>, nicht Glück. Ein guter Prüfstein, um deinen Glücksbegriff schärfer von „Sinn“ abzugrenzen."},
+ ]},
+];
+
+/* ===================== STATE ===================== */
+const KEY="kua_lernapp_v2";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}}
+function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+let S=load();
+S.xp=S.xp||0; S.lessons=S.lessons||{}; S.streak=S.streak||0; S.lastDay=S.lastDay||null;
+S.track=S.track||"kua";
+/* migrate v1 progress if present */
+(function migrate(){
+  try{
+    const old=JSON.parse(localStorage.getItem("kua_lernapp_v1"));
+    if(old && !S._migrated){
+      S.xp=Math.max(S.xp, old.xp||0);
+      S.streak=Math.max(S.streak, old.streak||0);
+      S.lastDay=S.lastDay||old.lastDay;
+      Object.assign(S.lessons, old.lessons||{});
+      S._migrated=true; save(S);
+    }
+  }catch(e){}
+})();
+function today(){return new Date().toISOString().slice(0,10)}
+function bumpStreak(){
+  const t=today(); if(S.lastDay===t) return;
+  const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  S.streak=(S.lastDay===y)?(S.streak+1):1; S.lastDay=t; save(S);
+}
+(function initStreak(){
+  if(S.lastDay){
+    const t=today(), y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+    if(S.lastDay!==t && S.lastDay!==y){S.streak=0;}
+  }
+})();
+
+/* ===================== HOME ===================== */
+function switchTrack(t){ S.track=t; save(S); renderHome(); }
+function renderHome(){
+  document.getElementById("xpNum").textContent=S.xp;
+  document.getElementById("streakNum").textContent=S.streak;
+  const tk=S.track;
+  document.getElementById("tabKua").classList.toggle("active", tk==="kua");
+  document.getElementById("tabAllg").classList.toggle("active", tk==="allg");
+  const home=document.getElementById("homeView");
+  home.classList.toggle("allgmode", tk==="allg");
+  const list=document.getElementById("lessonList");
+  list.innerHTML="";
+  BLOCKS[tk].forEach((b,bi)=>{
+    const ls=LESSONS.filter(l=>l.track===tk && l.block===bi);
+    if(!ls.length) return;
+    const hdr=document.createElement("div");
+    hdr.className="blockhdr";
+    hdr.innerHTML='<span class="n">'+b.n+'</span><div><h2>'+b.title+'</h2><div class="sub">'+b.sub+'</div></div>';
+    list.appendChild(hdr);
+    ls.forEach(l=>{
+      const pr=S.lessons[l.id]||{};
+      const pct=pr.done?100:(pr.progress||0);
+      const el=document.createElement("button");
+      el.className="lesson"+(pr.done?" done":"");
+      el.onclick=()=>startLesson(l.id);
+      el.innerHTML='<div class="badge">'+(pr.done?"✓":l.icon)+'</div>'+
+        '<div class="l-body"><div class="t">'+l.title+'</div>'+
+          '<div class="a">'+l.author+'</div>'+
+          '<div class="l-prog"><i style="width:'+pct+'%"></i></div></div>'+
+        '<div class="chev">›</div>';
+      list.appendChild(el);
+    });
+  });
+  home.style.display="block";
+  document.getElementById("lessonView").style.display="none";
+  window.scrollTo(0,0);
+}
+
+/* ===================== RUNNER ===================== */
+let cur=null, idx=0, answered=false, correctCount=0, answeredCount=0;
+function startLesson(id){
+  cur=LESSONS.find(l=>l.id===id);
+  idx=0; correctCount=0; answeredCount=0;
+  document.getElementById("homeView").style.display="none";
+  const lv=document.getElementById("lessonView");
+  lv.style.display="block";
+  lv.classList.toggle("allgrun", cur.track==="allg");
+  document.getElementById("streakNum2").textContent=S.streak;
+  document.getElementById("actBtn").onclick=onAct;
+  window.scrollTo(0,0);
+  renderCard();
+}
+function quitLesson(){ renderHome(); }
+function setProgress(){ document.getElementById("pbarFill").style.width=Math.round((idx/cur.cards.length)*100)+"%"; }
+function renderCard(){
+  setProgress(); answered=false;
+  const c=cur.cards[idx];
+  const slot=document.getElementById("cardSlot");
+  const act=document.getElementById("actBtn");
+  let html="";
+  if(c.t==="info"){
+    html='<div class="card"><div class="kicker">'+(c.kicker||"")+'</div>'+
+      (c.emoji?'<span class="emoji-big">'+c.emoji+'</span>':"")+
+      '<h3>'+c.h+'</h3>'+c.body.map((p,i)=>'<p class="'+(i===0?'lead':'')+'">'+p+'</p>').join("")+
+      (c.tag?'<span class="tagline">'+c.tag+'</span>':"")+'</div>';
+    slot.innerHTML=html; act.textContent="Weiter"; act.disabled=false; act.className="btn";
+  } else if(c.t==="mc"){
+    html='<div class="card"><div class="kicker">'+(c.kicker||"Quiz")+'</div><h3>'+c.q+'</h3>'+
+      '<div class="opts" id="opts">'+c.opts.map((o,i)=>
+        '<button class="opt" data-i="'+i+'" onclick="pick('+i+')"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></button>').join("")+
+      '</div><div class="fb" id="fb"></div></div>';
+    slot.innerHTML=html; act.textContent="Weiter"; act.disabled=true; act.className="btn";
+  } else if(c.t==="flip"){
+    html='<div class="card flip" id="flip"><div class="kicker">'+(c.kicker||"")+'</div>'+
+      '<p class="front">'+c.front+'</p><div class="reveal">'+c.reveal+'</div></div>';
+    slot.innerHTML=html; act.textContent="Antwort zeigen"; act.disabled=false; act.className="btn ghost";
+  } else if(c.t==="recall"){
+    html='<div class="card recall" id="recall"><div class="kicker">'+(c.kicker||"")+'</div>'+
+      '<p class="prompt">'+c.prompt+'</p>'+(c.hint?'<p class="hint">💡 '+c.hint+'</p>':"")+
+      '<div class="model">'+c.model+'</div></div>';
+    slot.innerHTML=html; act.textContent="Musterlösung zeigen"; act.disabled=false; act.className="btn ghost";
+  }
+  window.scrollTo(0,0);
+}
+function pick(i){
+  if(answered) return; answered=true; answeredCount++;
+  const c=cur.cards[idx];
+  document.querySelectorAll("#opts .opt").forEach(o=>{
+    o.disabled=true; const oi=+o.dataset.i;
+    if(oi===c.correct) o.classList.add("correct");
+    else if(oi===i) o.classList.add("wrong"); else o.classList.add("dim");
+  });
+  const fb=document.getElementById("fb");
+  if(i===c.correct){ correctCount++; fb.className="fb ok show"; fb.innerHTML="<b>Richtig ✓</b>"+c.fb; }
+  else { fb.className="fb no show"; fb.innerHTML="<b>Nicht ganz</b>"+c.fb; }
+  document.getElementById("actBtn").disabled=false;
+}
+function onAct(){
+  const c=cur.cards[idx];
+  if(c.t==="flip"){ const el=document.getElementById("flip");
+    if(el && !el.classList.contains("open")){ el.classList.add("open");
+      document.getElementById("actBtn").textContent="Weiter"; document.getElementById("actBtn").className="btn"; return; } }
+  if(c.t==="recall"){ const el=document.getElementById("recall");
+    if(el && !el.classList.contains("open")){ el.classList.add("open");
+      document.getElementById("actBtn").textContent="Weiter"; document.getElementById("actBtn").className="btn"; return; } }
+  idx++;
+  if(idx>=cur.cards.length){ finishLesson(); return; }
+  renderCard();
+  const pr=S.lessons[cur.id]||{};
+  if(!pr.done){ pr.progress=Math.round((idx/cur.cards.length)*100); S.lessons[cur.id]=pr; save(S); }
+}
+function finishLesson(){
+  document.getElementById("pbarFill").style.width="100%";
+  const wasDone=(S.lessons[cur.id]||{}).done;
+  const gained = wasDone? 0 : 20 + correctCount*5;
+  S.xp += gained;
+  S.lessons[cur.id]={done:true, progress:100, correct:correctCount, total:answeredCount};
+  bumpStreak(); save(S);
+  document.getElementById("cardSlot").innerHTML='<div class="done-scr">'+
+     '<div class="big">🎉</div><h2>Lektion geschafft!</h2><p>'+cur.title+'</p>'+
+     '<div class="scorebox">'+
+       '<div><div class="v">'+(answeredCount?correctCount+"/"+answeredCount:"–")+'</div><div class="l">Quiz richtig</div></div>'+
+       '<div><div class="v">+'+gained+'</div><div class="l">XP'+(wasDone?" (Wdh.)":"")+'</div></div>'+
+       '<div><div class="v">🔥 '+S.streak+'</div><div class="l">Streak</div></div></div>'+
+     '<p class="foothint">Tipp: Lies die Quelle jetzt mit dem Gerüst im Kopf — du exzerpierst schneller.</p></div>';
+  const act=document.getElementById("actBtn");
+  act.textContent="Zurück zur Übersicht"; act.className="btn"; act.disabled=false;
+  act.onclick=function(){ act.onclick=onAct; renderHome(); };
+}
+
+renderHome();
+</script>
+</body>
+</html>
