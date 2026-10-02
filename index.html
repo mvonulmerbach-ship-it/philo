@@ -12,6 +12,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Philosophie">
 <title>Philosophie lernen</title>
+<script>
+/* Hell/Dunkel ohne Aufblitzen: gespeicherte Wahl (store.theme) vor dem CSS anwenden. */
+(function(){var K="philo_lern_v3",w="system";try{var s=JSON.parse(localStorage.getItem(K)||"{}");if(s&&s.theme)w=s.theme;}catch(e){}
+var d=w==="dark"||(w!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches);
+document.documentElement.setAttribute("data-theme",d?"dark":"light");})();
+</script>
 <style>
 :root{
   color-scheme: light;
@@ -210,6 +216,21 @@ header{position:sticky;top:0;z-index:30;background:var(--bg);
 .dots{display:inline-flex;gap:3px;vertical-align:middle;margin-left:2px}
 .dots i{width:6px;height:6px;border-radius:50%;background:var(--line);display:inline-block}
 .dots i.on{background:var(--gold)}
+/* 02.10.2026 (Mini-App-Ueberarbeitung S2): Tippflaechen >= 44 px (Q-5),
+   Schrift >= 12 px, Kontrast im Dunkelmodus (B4), Hinweis statt Schein-Knopf (AK-07) */
+.themebtn{min-width:44px;min-height:44px;display:inline-grid;place-items:center;padding:6px 10px}
+.tab{min-height:44px}
+.back{min-height:44px;padding:6px 12px}
+.kicker{font-size:12px}
+.oitem .arrows{flex-direction:row;gap:4px}
+.oitem .arrows button{min-width:44px;min-height:44px;font-size:15px}
+[data-theme="dark"] .kicker.t-flip,[data-theme="dark"] .kicker.t-recall{color:#1c1b18}
+[data-theme="dark"] .opt.correct .k,[data-theme="dark"] .opt.wrong .k{color:#121310}
+.foothint{flex:1 1 auto;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:50px;font-size:15px;font-weight:700;color:var(--muted);padding:0 6px;
+  background:var(--bg);border-radius:14px}
+.ovlx,.cwmodal .row button{min-height:44px}
+.ovlbar .ovlx{background:rgba(0,0,0,.22)}  /* weisse Schrift >= 4,5:1 auch auf hellem Kopf (philo 3,82:1) */
 </style>
 </head>
 <body>
@@ -301,13 +322,24 @@ function refreshHeader(){
   $('streakStat').textContent = "🔥 "+store.sc;
   $('xpStat').textContent = "⭐ "+store.xp;
 }
+/* Hell/Dunkel dreistufig (02.10.2026, Q-3/Q-4): store.theme = "system" | "light" | "dark",
+   Standard "system" (folgt prefers-color-scheme). Eine frueher gespeicherte Wahl bleibt. */
+const THEME_FOLGE=['system','light','dark'];
+const THEME_SYMBOL={system:'◐',light:'☀️',dark:'🌙'};
+const THEME_NAME={system:'System',light:'Hell',dark:'Dunkel'};
+const dunkelAbfrage=matchMedia('(prefers-color-scheme: dark)');
+if(THEME_FOLGE.indexOf(store.theme)<0) store.theme='system';
+function shownTheme(){return document.documentElement.getAttribute('data-theme')==='dark'?'dark':'light';}
 function applyTheme(){
-  if(store.theme==='dark'){document.documentElement.setAttribute('data-theme','dark');$('themeBtn').textContent='☀️';}
-  else{document.documentElement.removeAttribute('data-theme');$('themeBtn').textContent='🌙';}
+  var dunkel=store.theme==='dark'||(store.theme==='system'&&dunkelAbfrage.matches);
+  document.documentElement.setAttribute('data-theme',dunkel?'dark':'light');
+  var b=$('themeBtn'); b.textContent=THEME_SYMBOL[store.theme];
+  b.setAttribute('aria-label','Erscheinungsbild: '+THEME_NAME[store.theme]); b.title='Erscheinungsbild: '+THEME_NAME[store.theme];
+  var v=shownTheme();
+  document.querySelectorAll('iframe').forEach(function(fr){ if(fr.contentWindow){try{fr.contentWindow.postMessage({type:'aromarad-theme',value:v},'*');}catch(e){}} });
 }
-$('themeBtn').onclick=function(){store.theme=(store.theme==='dark')?'light':'dark';save();applyTheme();
-  var v=store.theme==='dark'?'dark':'light';
-  document.querySelectorAll('iframe').forEach(function(fr){ if(fr.contentWindow){try{fr.contentWindow.postMessage({type:'aromarad-theme',value:v},'*');}catch(e){}} });};
+$('themeBtn').onclick=function(){store.theme=THEME_FOLGE[(THEME_FOLGE.indexOf(store.theme)+1)%THEME_FOLGE.length];save();applyTheme();};
+dunkelAbfrage.addEventListener('change',applyTheme);
 
 /* ---------- streak ---------- */
 function bumpStreak(){
@@ -318,14 +350,20 @@ function bumpStreak(){
 
 /* ---------- home ---------- */
 let curTrack = CFG.tracks[0].id;
-function trackColor(id){var t=CFG.tracks.find(function(x){return x.id===id;});return t?t.color:'var(--brand)';}
+/* 02.10.2026 (S2, B4): Weisse Schrift auf hellem Akzent (Gold, Hellbraun) erreichte nur
+   2,6-3,6:1. Farben, auf denen weisse Schrift steht, werden so weit abgedunkelt, bis 4,5:1 erreicht ist. */
+function hexRgb(h){var m=/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(h||'').trim());if(!m)return null;h=m[1];if(h.length===3)h=h.replace(/./g,'$&$&');return [0,2,4].map(function(i){return parseInt(h.substr(i,2),16);});}
+function kontrastZuWeiss(rgb){var l=rgb.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 1.05/(0.2126*l[0]+0.7152*l[1]+0.0722*l[2]+0.05);}
+function fuerWeisseSchrift(farbe){var rgb=hexRgb(farbe);if(!rgb)return farbe;var n=0;while(kontrastZuWeiss(rgb)<4.6&&n++<40){rgb=rgb.map(function(v){return Math.round(v*0.95);});}return '#'+rgb.map(function(v){return ('0'+v.toString(16)).slice(-2);}).join('');}
+function akzentAnpassen(){var r=document.documentElement,a=getComputedStyle(r).getPropertyValue('--accent').trim(),neu=fuerWeisseSchrift(a);if(neu!==a)r.style.setProperty('--accent',neu);}
+function trackColor(id){var t=CFG.tracks.find(function(x){return x.id===id;});return t?fuerWeisseSchrift(t.color):'var(--brand)';}
 function catIcon(cat){return (CFG.catIcons&&CFG.catIcons[cat])|| '📖';}
 
 function renderTabs(){
   var w=$('tabs'); w.innerHTML='';
   CFG.tracks.forEach(function(t){
     var b=el('button','tab'+(t.id===curTrack?' on':''), t.emoji+' '+t.label);
-    if(t.id===curTrack){b.style.background=t.color;}
+    if(t.id===curTrack){b.style.background=trackColor(t.id);}
     b.onclick=function(){curTrack=t.id;renderHome();};
     w.appendChild(b);
   });
@@ -361,7 +399,7 @@ function renderHome(){
   if(tObj.wheel){
     list.appendChild(el('div','sectit','Aromarad — jederzeit zum Nachschlagen'));
     var fr=el('div','wheelFrame');
-    var th=(store.theme==='dark')?'dark':'light';
+    var th=shownTheme();
     var ifr=document.createElement('iframe');
     ifr.id='aromaFrame'; ifr.title='Aromarad';
     ifr.setAttribute('src',(CFG.wheelSrc||'aromarad.html')+'?theme='+th);
@@ -402,6 +440,7 @@ $('quizBack').onclick=function(){ if(confirm('Quiz beenden und zurück?')) rende
 function setFoot(buttons){ // buttons: array of {label,cls,fn,disabled}
   var f=$('footSlot'); f.innerHTML='';
   buttons.forEach(function(b){
+    if(b.hint){ f.appendChild(el('div','foothint',b.hint)); return; } // Hinweis statt deaktiviertem Knopf (AK-07)
     var btn=el('button','btn'+(b.cls?' '+b.cls:''), b.label);
     if(b.disabled)btn.disabled=true;
     btn.onclick=b.fn; f.appendChild(btn); b._el=btn;
@@ -501,7 +540,7 @@ function renderMC(q,card){
     };
     btns.push({b:b,origIdx:origIdx}); wrap.appendChild(b);
   });
-  setFoot([{label:'Wähle eine Antwort',fn:function(){},disabled:true}]);
+  setFoot([{hint:'Wähle eine Antwort'}]);
 }
 
 /* multi */
@@ -550,7 +589,7 @@ function renderTF(q,card){
     };
     wrap.appendChild(b);
   });
-  setFoot([{label:'Wahr oder Falsch?',fn:function(){},disabled:true}]);
+  setFoot([{hint:'Wahr oder Falsch?'}]);
 }
 
 /* match */
@@ -746,12 +785,12 @@ function initWheelFab(){
   var ifr=document.createElement('iframe'); ifr.id='aromaFabFrame'; ifr.title='Aromarad';
   sheet.appendChild(bar); sheet.appendChild(ifr);
   document.body.appendChild(fab); document.body.appendChild(sheet);
-  fab.onclick=function(){ if(!ifr.getAttribute('src')){ ifr.setAttribute('src',(CFG.wheelSrc||'aromarad.html')+'?theme='+((store.theme==='dark')?'dark':'light')); } sheet.classList.add('on'); };
+  fab.onclick=function(){ if(!ifr.getAttribute('src')){ ifr.setAttribute('src',(CFG.wheelSrc||'aromarad.html')+'?theme='+shownTheme()); } sheet.classList.add('on'); };
   close.onclick=function(){ sheet.classList.remove('on'); };
 }
 
 /* ---------- init ---------- */
-applyTheme(); refreshHeader(); renderHome(); initWheelFab();
+akzentAnpassen(); applyTheme(); refreshHeader(); renderHome(); initWheelFab();
 </script>
 
 <style id="dl-style">
@@ -778,7 +817,7 @@ applyTheme(); refreshHeader(); renderHome(); initWheelFab();
 .dlov .dlfoot{flex:0 0 auto;padding:12px 18px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px}
 .dlov .dlgo{border:none;border-radius:16px;padding:17px;font-size:17px;font-weight:800;color:#fff;cursor:pointer;width:100%}
 .dlov .dlgo:active{filter:brightness(.93)}
-.dlov .dlskip{background:none;border:none;font-size:13px;opacity:.55;cursor:pointer;padding:8px;color:inherit}
+.dlov .dlskip{background:none;border:none;font-size:13px;opacity:.55;cursor:pointer;padding:8px;color:inherit;min-height:44px}
 </style>
 <script id="dl-lessons" type="application/json">{"cats":{"Überblick & Teilgebiete":{"lead":"Philosophie fragt grundlegend nach Wissen, Sein, Handeln und Sinn. Die Teilgebiete ordnen diese Fragen.","points":["Metaphysik: Was existiert? (Sein, Geist, Freiheit)","Erkenntnistheorie: Was und wie können wir wissen?","Ethik: Was sollen wir tun?","Logik: Was folgt gültig aus was?"],"more":"Dazu kommen u. a. politische Philosophie, Ästhetik und Sprachphilosophie."},"Logik & Argumentation":{"lead":"Logik prüft, ob Schlüsse gültig sind – unabhängig davon, ob die Prämissen wahr sind.","points":["Gültig = wenn die Prämissen wahr sind, muss die Konklusion wahr sein.","Deduktion (sicher) vs. Induktion (wahrscheinlich).","Typische Fehlschlüsse: Strohmann, Zirkelschluss, ad hominem.","Wahrheit der Prämissen und Gültigkeit der Form sind zweierlei."],"more":"Ein gültiges Argument mit falscher Prämisse kann zu einer falschen Konklusion führen."},"Antike":{"lead":"Die antike Philosophie legt das Fundament des westlichen Denkens.","points":["Sokrates: Fragen als Methode, „Ich weiß, dass ich nichts weiß.“","Platon: Ideenlehre – wahre Wirklichkeit hinter den Erscheinungen.","Aristoteles: Logik, Empirie, Tugend als „rechte Mitte“.","Stoa & Epikur: Wege zu Seelenruhe und gutem Leben."],"more":"„Eudaimonia“ (gelingendes Leben) ist das gemeinsame Ziel vieler Schulen."},"Mittelalter":{"lead":"Im Mittelalter verbindet sich antike Philosophie mit Theologie.","points":["Augustinus: Glaube und Innerlichkeit, beeinflusst von Platon.","Thomas von Aquin: Aristoteles + Christentum, Gottesbeweise.","Universalienstreit: Sind Allgemeinbegriffe real oder nur Namen?","Scholastik: strenge Methode von Frage, Einwand, Antwort."],"more":"Viele antike Texte überlebten über arabische Gelehrte."},"Rationalismus & Empirismus":{"lead":"Zwei Wege zur Erkenntnis prägen die frühe Neuzeit: Vernunft vs. Erfahrung.","points":["Rationalismus (Descartes, Spinoza, Leibniz): Wissen aus der Vernunft.","Empirismus (Locke, Hume, Berkeley): Wissen aus Sinneserfahrung.","Descartes: „Cogito, ergo sum“ als sicherer Ausgangspunkt.","Hume: Zweifel an Kausalität und Induktion."],"more":"Kant versucht später, beide Richtungen zu versöhnen."},"Kant":{"lead":"Kant vollzieht die „kopernikanische Wende“: Der Verstand formt die Erfahrung.","points":["Wir erkennen Erscheinungen, nicht das „Ding an sich“.","Raum & Zeit sind Formen unserer Anschauung.","Kategorischer Imperativ: handle nach verallgemeinerbaren Maximen.","Aufklärung: „Habe Mut, dich deines Verstandes zu bedienen!“"],"more":"Kant trennt, was wir wissen können, von dem, was wir glauben/hoffen."},"Politische Philosophie":{"lead":"Wie sollen wir zusammenleben? Macht, Gerechtigkeit und Freiheit stehen im Zentrum.","points":["Vertragstheorien (Hobbes, Locke, Rousseau): Legitimation von Herrschaft.","Liberalismus betont Freiheit & Rechte des Einzelnen.","Rawls: Gerechtigkeit als Fairness („Schleier des Nichtwissens“).","Spannungsfeld Freiheit vs. Gleichheit."],"more":"Nozick kontert Rawls mit Minimalstaat und Eigentumsrechten."},"19. Jahrhundert":{"lead":"Das 19. Jh. denkt Geschichte, Gesellschaft und Wille neu.","points":["Hegel: Dialektik, Geschichte als Entfaltung des Geistes.","Marx: materialistische Wende, Kritik des Kapitalismus.","Schopenhauer: die Welt als Wille und Vorstellung.","Nietzsche: Kritik der Moral, „Wille zur Macht“."],"more":"Viele dieser Ideen prägen bis heute Politik und Psychologie."},"20. Jahrhundert":{"lead":"Sprache, Existenz und Wissenschaft rücken ins Zentrum.","points":["Wittgenstein: Grenzen und Spiele der Sprache.","Existenzialismus (Sartre, Camus): Freiheit, Sinn, Absurdität.","Popper: Wissenschaft lebt von Falsifizierbarkeit.","Phänomenologie & Hermeneutik: Erfahrung und Verstehen."],"more":"Hier trennen sich „analytische“ und „kontinentale“ Tradition."},"Nassim Taleb":{"lead":"Taleb denkt über Zufall, Risiko und Robustheit – wie man in einer unsicheren Welt besteht.","points":["„Black Swan“: seltene, extreme, im Nachhinein „erklärte“ Ereignisse.","„Antifragil“: was durch Stress & Unordnung stärker wird.","„Skin in the Game“: wer entscheidet, soll das Risiko mittragen."],"more":"Scharfe Kritik an Experten, die Risiken auf andere auslagern."},"Surowiecki":{"lead":"James Surowiecki: „Die Weisheit der Vielen“ – Gruppen können klüger sein als Einzelne.","points":["Braucht Vielfalt, Unabhängigkeit & Dezentralität der Urteile.","Die Aggregation vieler Schätzungen schlägt oft den Experten.","Gefahr: Herdenverhalten zerstört die Weisheit der Menge."]},"Epiktet & Stoa":{"lead":"Epiktet, einst Sklave, dann Stoiker: Frei ist, wer Beeinflussbares von Nicht-Beeinflussbarem trennt.","points":["„Nicht die Dinge beunruhigen uns, sondern unsere Urteile darüber.“","Konzentriere dich auf das, was in deiner Macht steht.","Tugend und innere Haltung statt äußerer Umstände."]},"Viktor Frankl":{"lead":"Frankl, Psychiater und KZ-Überlebender: Sinn ist die stärkste Kraft des Menschen.","points":["Logotherapie: Heilung durch Sinnfindung.","„Wer ein Warum hat, erträgt fast jedes Wie.“","Sinn entsteht durch Tun, Erleben und Haltung im Leid."]},"J. S. Mill":{"lead":"Mill verbindet Freiheit und Nützlichkeit – ein Klassiker des Liberalismus.","points":["Schadensprinzip: Freiheit endet, wo man anderen schadet.","Utilitarismus: höhere und niedere Freuden unterscheiden.","Leidenschaftliche Verteidigung der Meinungsfreiheit."]},"Michael Sandel":{"lead":"Sandel hinterfragt die Grenzen von Markt und Meritokratie aus Sicht des Gemeinwohls.","points":["„Was man für Geld nicht kaufen sollte“ – moralische Grenzen von Märkten.","Kritik der Leistungsgesellschaft: Erfolg ist nie allein Verdienst.","Gerechtigkeit braucht Debatte über das gute Leben."]},"Epikur":{"lead":"Epikur sucht Glück in maßvoller Lust und Schmerzfreiheit (Ataraxie).","points":["Lust = Abwesenheit von Schmerz und Unruhe, nicht Exzess.","Bedürfnisse einteilen: natürlich/notwendig vs. überflüssig.","„Solange wir sind, ist der Tod nicht; ist er da, sind wir nicht.“"]},"C. S. Lewis":{"lead":"Lewis: Literaturwissenschaftler und christlicher Denker, bekannt für klare Apologetik.","points":["„Trilemma“: Jesus als Lügner, Verrückter oder Herr.","Das moralische Gesetz als Hinweis auf etwas Höheres.","Verbindet Vernunft, Mythos und Glauben."]},"Hayek":{"lead":"Hayek: Wissen ist verstreut – Märkte koordinieren es besser als zentrale Planung.","points":["Preise bündeln verstreutes Wissen als Signale.","„Anmaßung von Wissen“: Planer überschätzen ihr Wissen.","Spontane Ordnung statt Steuerung von oben."]},"Wittgenstein":{"lead":"Wittgenstein untersucht die Grenzen und Funktionsweise der Sprache.","points":["Früh: „Wovon man nicht sprechen kann, darüber muss man schweigen.“","Spät: Bedeutung entsteht im Gebrauch („Sprachspiele“).","Viele Probleme sind sprachliche Verwirrungen."]},"Hannah Arendt":{"lead":"Arendt denkt über Macht, Freiheit und politisches Handeln.","points":["„Banalität des Bösen“: Unrecht durch Gedankenlosigkeit.","Vita activa: Arbeiten, Herstellen, Handeln unterscheiden.","Freiheit zeigt sich im gemeinsamen Handeln im öffentlichen Raum."]},"Spinoza":{"lead":"Spinoza: Gott und Natur sind eins – Freiheit heißt Einsicht in die Notwendigkeit.","points":["Eine einzige Substanz („Deus sive Natura“).","Affekte verstehen, um nicht ihr Sklave zu sein.","Erkenntnis führt zu Gleichmut."]},"Marc Aurel":{"lead":"Marc Aurel, römischer Kaiser und Stoiker, schrieb „Selbstbetrachtungen“ als Lebensübung.","points":["Erinnere dich täglich an Vergänglichkeit und Pflicht.","Beherrsche dein Urteil, nicht die äußeren Dinge.","Handle vernünftig und zum Wohl der Gemeinschaft."]},"Aristoteles":{"lead":"Aristoteles: Empiriker und Systematiker – Tugend als Mitte, Glück als Ziel.","points":["Tugend liegt in der „rechten Mitte“ zwischen Extremen.","Eudaimonia = gelingendes Leben durch tugendhafte Tätigkeit.","Begründer der formalen Logik (Syllogismus)."]},"Putnam (Sozialkapital)":{"lead":"Robert Putnam: „Bowling Alone“ – Zusammenhalt als „Sozialkapital“.","points":["Netzwerke, Vertrauen und Normen sind Ressourcen einer Gesellschaft.","„Bonding“ (innerhalb) vs. „Bridging“ (zwischen Gruppen).","Sinkende Bindung schwächt die Demokratie."]},"Veblen":{"lead":"Thorstein Veblen prägte den Begriff „demonstrativer Konsum“.","points":["Status wird durch sichtbaren Verbrauch signalisiert.","„Leisure Class“: Verschwendung als Prestige.","Kritik am Geltungsstreben der Wirtschaft."]},"Byung-Chul Han":{"lead":"Byung-Chul Han diagnostiziert die „Müdigkeitsgesellschaft“.","points":["Selbstausbeutung statt Fremdzwang („Leistungssubjekt“).","Verlust von Muße, Ferne und Negativität.","Transparenz- und Optimierungsdruck machen krank."]},"Hartmut Rosa":{"lead":"Hartmut Rosa: Beschleunigung und „Resonanz“ als Schlüssel der Moderne.","points":["Soziale Beschleunigung erzeugt Entfremdung.","„Resonanz“: eine gelingende, antwortende Weltbeziehung.","Nicht mehr Ressourcen, sondern bessere Beziehungen zur Welt."]},"Tocqueville":{"lead":"Tocqueville analysierte Demokratie, Freiheit und ihre Gefahren.","points":["„Über die Demokratie in Amerika“: Gleichheit als Grundtrend.","Gefahr der „Tyrannei der Mehrheit“.","Vereine & lokale Selbstverwaltung schützen die Freiheit."]},"Nozick":{"lead":"Nozick verteidigt einen Minimalstaat und starke Eigentumsrechte.","points":["Nur ein „Nachtwächterstaat“ ist legitim.","Gerechtigkeit als rechtmäßiger Erwerb & Übertragung.","„Erfahrungsmaschine“: Wir wollen echtes Leben, nicht nur Lust."]},"Stoa":{"lead":"Die Stoa lehrt Gelassenheit durch Vernunft und Akzeptanz des Naturlaufs.","points":["Unterscheide Beeinflussbares von Nicht-Beeinflussbarem.","Negative Affekte entstehen aus falschen Urteilen.","Lebe „gemäß der Natur“ und der Vernunft."]},"Sokrates/Platon":{"lead":"Sokrates fragt, Platon systematisiert: Wahrheit liegt hinter den Erscheinungen.","points":["Sokratische Methode: durch Fragen zum Wissen (und zur eigenen Unwissenheit).","Platons Ideenlehre: Urbilder hinter den Dingen.","Höhlengleichnis: Bildung als Weg ins Licht."]},"Hegel":{"lead":"Hegel denkt Wirklichkeit als Prozess: These, Antithese, Synthese.","points":["Dialektik treibt Denken und Geschichte voran.","„Das Wahre ist das Ganze.“","Geschichte als Fortschritt im Bewusstsein der Freiheit."]},"Nietzsche":{"lead":"Nietzsche hinterfragt Moral, Wahrheit und Werte radikal.","points":["„Gott ist tot“ – Verlust verbindlicher Werte (Nihilismus).","Umwertung der Werte; Herren- vs. Sklavenmoral.","Ideal: lebensbejahendes Schaffen eigener Werte."]},"Camus":{"lead":"Camus: Das Leben ist absurd – und gerade darum zu bejahen.","points":["Das Absurde: Sinnsuche trifft auf eine stumme Welt.","„Wir müssen uns Sisyphos als glücklichen Menschen vorstellen.“","Auflehnung statt Selbstaufgabe oder fauler Hoffnung."]}},"mixed":{"Quellen":{"lead":"Querschnitt durch die Denker und Quellen, die du gesammelt hast.","points":["12 zufällige Fragen aus verschiedenen Autoren.","Verbinde Idee und Kopf dahinter.","Kein Zeitdruck – ruhig nachdenken."]},"Vertieft":{"lead":"Vertiefende Fragen quer durch Epochen und Denker.","points":["Von der Antike bis zur Gegenwart gemischt.","Achte auf die zentrale These jedes Denkers."]},"Allgemein":{"lead":"Gemischte Runde durch die großen Felder und Epochen der Philosophie.","points":["Teilgebiete, Logik und Epochen gemischt.","Merksatz: Gültigkeit ist nicht dasselbe wie Wahrheit."]}},"mixedDefault":{"lead":"Eine bunt gemischte Übungsrunde. Kein Zeitdruck.","points":["12 zufällige Fragen aus diesem Bereich.","Achte auf die zentrale These jedes Denkers."]}}</script>
 <script id="dl-logic">
@@ -856,7 +895,7 @@ applyTheme(); refreshHeader(); renderHome(); initWheelFab();
 .anspill{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 15px;box-shadow:var(--shadow)}
 #cardSlot .opt{min-height:48px}
 #cardSlot .tf{gap:10px}
-#cardSlot .tf button{min-height:0!important;flex:1;padding:8px 10px!important;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px}
+#cardSlot .tf button{min-height:48px!important;flex:1;padding:8px 10px!important;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px}
 #cardSlot .tf button .e{font-size:17px;line-height:1}
 #cardSlot .mitem{min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center}
 #cardSlot .oitem{min-height:46px;cursor:grab;user-select:none}
@@ -971,6 +1010,13 @@ html.qlock #footSlot{flex:0 0 auto;margin-top:8px}
   window.addEventListener('orientationchange', function(){ setTimeout(set, 250); });
   window.addEventListener('pageshow', set);
 })();
+</script>
+<script>
+/* Service Worker (02.10.2026, Q-2): App laeuft offline, loescht nur eigene Caches (sw.js).
+   Nicht im iframe registrieren. */
+if ("serviceWorker" in navigator && window.top === window) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
 </script>
 </body>
 </html>
